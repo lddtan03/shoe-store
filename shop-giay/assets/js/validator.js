@@ -45,7 +45,7 @@ function Validator(options) {
   if (formElement) {
     // Khi submit form
     formElement.onsubmit = function (e) {
-      e.preventDefault();
+      // e.preventDefault();
       var isFormValid = true;
       // Lặp qua từng rule và validate
       options.rules.forEach(function (rule) {

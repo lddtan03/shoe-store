@@ -15,9 +15,6 @@ if (isset($_GET['page'])) {
         case "sign-up":
             require_once("sign-up.php");
             break;
-        case "sign-up":
-            require_once("forgot-pass.php");
-            break;
         case "product":
             require_once("product.php");
             break;
@@ -26,6 +23,9 @@ if (isset($_GET['page'])) {
             break;
         case "giohang":
             require_once("giohang.php");
+            break;
+        case "forgot-pass":
+            require_once("forgot-pass.php");
             break;
         default:
             require_once("home.php");

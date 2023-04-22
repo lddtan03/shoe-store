@@ -1,3 +1,12 @@
+<?php
+
+if(isset($_GET['btn-sign-up'])){
+
+    header("Location: index.php?page=sign-up");
+
+}
+
+?>
 
 
 <style>
@@ -45,7 +54,7 @@
             <input type="password" name="password" id="password-comfirmation" class="form-control" placeholder="Nhập lại mật khẩu" />
             <small class="form-message"></small>
           </div>
-          <button class="btn btn-info w-100 my-4">Đăng ký</button>
+          <button name="btn-sign-up" class="btn btn-info w-100 my-4">Đăng ký</button>
           <div class="convert-sign-in">
             <span>Bạn đã có tài khoản?</span>
             <a href="index.php?page=login">Đăng nhập</a>
