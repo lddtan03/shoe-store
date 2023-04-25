@@ -27,6 +27,9 @@ if (isset($_GET['page'])) {
         case "forgot-pass":
             require_once("forgot-pass.php");
             break;
+        case "Profile-edit":
+            require_once("Profile-edit.php");
+            break;
         default:
             require_once("home.php");
             break;

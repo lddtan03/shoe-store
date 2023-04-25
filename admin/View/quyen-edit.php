@@ -13,8 +13,6 @@ if (!isset($_REQUEST['nhomquyen'])) {
 		exit;
 	}
 }
-
-
 if (isset($_POST['capquyen'])) {
 	$db = new Helper();
 	$quyen = $_POST['quyen'];
@@ -28,8 +26,6 @@ if (isset($_POST['capquyen'])) {
 	}
 	$success_message = 'Cập nhật quyền thành công!!';
 }
-
-
 function kttontai($quyen)
 {
 	$db = new Helper();
@@ -43,10 +39,7 @@ function kttontai($quyen)
 	}
 	return false;
 }
-
 ?>
-
-
 <section class="content-header">
 	<div class="content-header-left">
 		<h1>Quản lý quyền</h1>

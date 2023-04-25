@@ -51,7 +51,7 @@ foreach ($result as $row) {
                 ?></a></td>
 
         <td class="text-center">
-            <a onclick="truyenid(<?php echo $row['id_pro']; ?>,<?php echo $row['ten_pro']; ?>)"  data-toggle="modal" data-target="#themgiohang" class="btn btn-primary btn-xs">Chọn</a>
+            <a  onclick="layTenNe(<?php echo $row['id_pro'] ?>)" data-toggle="modal" data-target="#themgiohang" class="btn btn-primary btn-xs">Chọn</a>
         </td>
 
     </tr>

@@ -1,22 +1,112 @@
-<?php
-
-?>
 <link rel="stylesheet" href="./style.css">
 
+<style>
+    .range-slider {
+        height: 5px;
+        position: relative;
+        background-color: #e1e9f6;
+        border-radius: 2px;
+    }
+
+    .range-selected {
+        height: 100%;
+        left: 30%;
+        right: 30%;
+        position: absolute;
+        border-radius: 5px;
+    }
+
+    .range-input {
+        position: relative;
+    }
+
+    .range-input input {
+        position: absolute;
+        width: 100%;
+        height: 5px;
+        top: -7px;
+        background: none;
+        pointer-events: none;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+    }
+
+    .range-input input::-webkit-slider-thumb {
+        height: 20px;
+        width: 20px;
+        border-radius: 50%;
+        border: 3px solid #1b53c0;
+        background-color: #fff;
+        pointer-events: auto;
+        -webkit-appearance: none;
+    }
+
+    .range-input input::-moz-range-thumb {
+        height: 15px;
+        width: 15px;
+        border-radius: 50%;
+        border: 3px solid #1b53c0;
+        background-color: #fff;
+        pointer-events: auto;
+        -moz-appearance: none;
+    }
+
+    #minne,
+    #maxne {
+        width: 100%;
+        text-align: center;
+        border: none;
+
+    }
 </style>
+<script>
+    function laygia() {
+        var min = document.getElementById("min").value;
+        var max = document.getElementById("max").value;
+        if (max * 1 <= min * 1) {
+            document.getElementById("minne").value = intToVND(max);
+            document.getElementById("maxne").value = intToVND(min);
+        } else {
+            document.getElementById("minne").value = intToVND(min);
+            document.getElementById("maxne").value = intToVND(max);
+        }
+    }
+
+    function intToVND(num) {
+        return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " đ";
+    }
+
+    function VNDtoInt(str) {
+        var vnd = parseInt(str.replace(/[^\d]/g, ""), 10);
+        return parseInt(vnd, 10);
+    }
+</script>
+
 <div id="contain">
     <div class="left-menu">
         <div class="gia mt-3 mb-3" class="unselectable">
             <h1>GIÁ
                 <span id="size-toggle" class="toggle" class="unselectable"><img src="" alt="">+</span>
             </h1>
-
-            <form>
-                <span class="mt-2">Min: <input type="text" name="" id=""></span>
-
-                <span class="mt-2">Max: <input type="text" name="" id=""></span>
-            </form>
+            <div class="range mt-4">
+                <div class="range-slider">
+                    <span class="range-selected"></span>
+                </div>
+                <div class="range-input">
+                    <input type="range" class="min" id="min" min="0" max="10000000" value="0" onclick="laygia()" step="100000">
+                    <input type="range" class="max" id="max" min="0" max="10000000" value="100000000" onchange="laygia()" step="100000">
+                </div>
+                <div class="row  mt-3 text-center">
+                    <div class="col-md-6"><label for="min">Min</label></div>
+                    <div class="col-md-6"><label for="max">Max</label></div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6"><input type="text" name="min" id="minne" value="0 đ" disabled></div>
+                    <div class="col-md-6"><input type="text" name="max" id="maxne" value="10,000,000 đ" disabled></div>
+                </div>
+            </div>
         </div>
+
 
         <div class="brand mt-2">
             <h1>THƯƠNG HIỆU
@@ -52,10 +142,9 @@
             <form>
                 <?php
 
-                $conn = new PDO('mysql:host=localhost;dbname=sneakershop', 'root', '');
-                $statement = $conn->prepare('select * from tbl_size');
-                $statement->execute();
-                $result_brand = $statement->fetchAll(PDO::FETCH_ASSOC);
+                $conn = new Helper();
+                $stmt = 'select * from tbl_size';
+                $result_brand = $conn->fetchAll($stmt);
                 foreach ($result_brand as $row) {
                 ?>
                     <ul id="size-filter" class="filter-options" class="form_brand">
@@ -68,8 +157,6 @@
                     </ul>
 
                 <?php } ?>
-
-
             </form>
         </div>
     </div>
@@ -82,7 +169,9 @@
             <div class="text_Sr">
                 TẤT CẢ SẢN PHẨM
             </div>
+            
             <div class="sort">
+                
                 <label>Sắp xếp theo : </label>
 
                 <div class="select-product">
@@ -99,6 +188,7 @@
 
                     </select>
                 </div>
+                
 
                 <div class="locsanpham">
 
@@ -191,25 +281,31 @@
             <div class="container py-5 ">
                 <div class="row" id="product-list">
                     <?php
-
-                    $conn = new PDO('mysql:host=localhost;dbname=sneakershop', 'root', '');
-                    $statement = $conn->prepare('select * from tbl_product');
-                    $statement->execute();
-                    $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+                    $para=[];
+                    if (isset($_GET['nhanhieu']) && isset($_GET['loai'])) {
+                        $stmt='select * from tbl_product';
+                    } else if (isset($_GET['nhanhieu'])) {
+                        $stmt="select * from tbl_product join tbl_nhanhieu on tbl_nhanhieu.id_nh=tbl_product.id_nh where nhanhieu regexp ? limit 6";
+                        $para=[$_GET['nhanhieu']];
+                    } else if (isset($_GET['loai'])) {
+                        $stmt='select * from tbl_product';
+                    } else {
+                        $stmt='select * from tbl_product';
+                    }
+                    $conn = new Helper();
+                    $result = $conn->fetchAll($stmt, $para);
                     $products = $result;
                     foreach ($result as $row) {
                     ?>
 
-                        <div class="col-md-6 col-lg-4 mb-4 mb-lg-0  ">
-                            <div class="card mb-4 position-relative">
+                        <div class="col-md-6 col-lg-4 mb-2 mb-lg-0  ">
+                            <div class="card mb-4 position-relative" style="height:600px">
                                 <!-- <div class="position-absolute p-2  " style="top:0;left:0; background-color:bisque; color:tomato;">-30%</div>
                                 <div class="position-absolute p-2  " style="top:0;right:0; background-color:red; color:white;"> New</div> -->
 
-                                <!-- <a href="chitietsanpham.php?id=<?php echo $row['id_i']; ?>"><img src="<?php echo $row['image']; ?>" alt="<?php echo $row['name']; ?>"></a> -->
                                 <a href="chitietsp.php?id=<?php echo $row['id_pro']; ?>">
-                                    <div style="width: 300px;height:300px;"> <img src="../uploads/<?php echo $row['hinhanh']; ?>" class="card-img-top" alt=""></div>
+                                    <div style="width:100%; height:auto;"> <img  src="../uploads/<?php echo $row['hinhanh']; ?>" class="card-img-top" alt=""></div>
                                 </a>
-
                                 <div class="card-body">
                                     <div class="d-flex justify-content-between">
                                         <p class="small"><a href="#!" class="text-muted">Loại sản phẩm</a></p>
@@ -245,7 +341,7 @@
 
             </div>
             <nav aria-label="Page navigation">
-                <ul class="pagination" id="trang">
+                <ul class="pagination" id="trang" >
                 </ul>
             </nav>
         </section>
@@ -304,12 +400,14 @@
                     method: 'POST',
                     data: {
                         brands: [],
-                        sizes: []
+                        sizes: [],
+                        page:1
                     },
                     success: function(response) {
-                        var inra=response.split("???");
+                        var inra = response.split("???");
                         $('#product-list').html(inra[0]);
-                        document.getElementById("trang").innerHTML = inra[1];
+                        // document.getElementById("tongsosp").innerText = inra[1];
+                        document.getElementById("trang").innerHTML = inra[2];
                     }
                 });
             } else {
@@ -321,9 +419,9 @@
                         sizes: sizes
                     },
                     success: function(response) {
-                        var inra=response.split("???");
+                        var inra = response.split("???");
                         $('#product-list').html(inra[0]);
-                        document.getElementById("trang").innerHTML = inra[1];
+                        document.getElementById("trang").innerHTML = inra[2];
                     }
                 });
             }

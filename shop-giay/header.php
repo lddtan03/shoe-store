@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 if (!function_exists('money')) {
     function money($number, $suffix = 'đ')
@@ -12,7 +12,7 @@ if (!function_exists('money')) {
 include('./Helper.php');
 $db = new Helper();
 $statement = "SELECT * FROM tbl_setting where id=1";
-$result = $db ->fetchOne($statement);
+$result = $db->fetchOne($statement);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -29,9 +29,35 @@ $result = $db ->fetchOne($statement);
     <link rel="stylesheet" href="assets/css/main.css" />
     <title>Shop bán giày</title>
     <link rel="icon" type="image/x-icon" href="../uploads/<?php echo $result['favicon'] ?>">
-</head>
-<body>
+    <style>
+        #search-hints {
+            position: absolute;
+            display: block;
+            top: 40px;
+            left: 0;
+            right: 0;
+            background-color: white;
+            border: 1px solid gray;
+            z-index: 1;
+        }
+    </style>
+    <script defer>
+	function show() {
+		var search = document.getElementById("search").value;
+		var xmlhttp = new XMLHttpRequest();
+		xmlhttp.onreadystatechange = function() {
+			if (this.readyState == 4 && this.status == 200) {
+				document.getElementById("search-hints").innerHTML= this.responseText;
+			}
+		}
+		xmlhttp.open("GET", "HienThiGoiY.php?search=" + search, true);
+		xmlhttp.send();
+	}
+</script>
 
+</head>
+
+<body>
     <div id="wrapper">
         <div id="header">
             <div class="container-fluid pt-3 position-relative">
@@ -53,12 +79,12 @@ $result = $db ->fetchOne($statement);
                     }
                     ?>
                     <div class="mr-3 mt-4" id="ttdn">
-                        <img src="../uploads/<?php echo $avatar ?>" alt="" style="width:50px">
+                        <img src="../uploads/<?php echo $avatar ?>" alt="" style="width:50px;">
                         <?php echo $ten_user ?>
                     </div>
 
                     <form id="form-search-responsive">
-                        <input type="text" name="query" placeholder="Bạn muốn tìm gì?" />
+                        <input type="text" name="query" id="search-input" onchange="hienHint()" placeholder="Bạn muốn tìm gì?" />
                         <button>
                             <i class="fa-solid fa-magnifying-glass"></i>
                         </button>
@@ -76,42 +102,42 @@ $result = $db ->fetchOne($statement);
                                 <li><a href="index.php?page=home">Trang chủ</a></li>
                                 <li><a href="index.php?page=product">Tất cả sản phẩm</a></li>
                                 <li>
-                                    <a href="">Thương hiệu <i class="fa-solid fa-sort-down"></i></a>
+                                    <a href="index.php?page=product">Thương hiệu <i class="fa-solid fa-sort-down"></i></a>
                                     <ul class="sub-menu">
                                         <li>
-                                            <a class="position-relative" href="">Nike </i></a>
+                                            <a  href="index.php?page=product&nhanhieu=nike">Nike </i></a>
 
                                         </li>
                                         <li>
-                                            <a href="">Adidas</i></a>
+                                            <a href="index.php?page=product&nhanhieu=Adidas">Adidas</i></a>
 
                                         </li>
                                         <li>
-                                            <a href="">Puma</i></a>
+                                            <a href="index.php?page=product&nhanhieu=Puma">Puma</i></a>
 
                                         </li>
                                         <li>
-                                            <a href="">Mizuno</i></a>
+                                            <a href="index.php?page=product&nhanhieu=Mizuno">Mizuno</i></a>
 
                                         </li>
                                         <li>
-                                            <a href="">Kamito</i></a>
+                                            <a href="index.php?page=product&nhanhieu=Kamito">Kamito</i></a>
 
                                         </li>
                                         <li>
-                                            <a href="">Joma</i></a>
+                                            <a href="index.php?page=product&nhanhieu=Joma">Joma</i></a>
 
                                         </li>
                                         <li>
-                                            <a href="">Asics</i></a>
+                                            <a href="index.php?page=product&nhanhieu=Asics">Asics</i></a>
 
                                         </li>
                                         <li>
-                                            <a href="">Athleta</a>
+                                            <a href="index.php?page=product&nhanhieu=Athleta">Athleta</a>
 
                                         </li>
                                         <li>
-                                            <a href="">Desporte</a>
+                                            <a href="index.php?page=product&nhanhieu=Desporte">Desporte</a>
 
                                         </li>
                                     </ul>
@@ -232,18 +258,31 @@ $result = $db ->fetchOne($statement);
                     </div>
                     <div class="col-md-5 col-sm-3 position-absolute ">
                         <form action="" id="form-search" style="right:-105%; ">
-                            <input type="text" name="form-search" placeholder="Bạn muốn tìm gì?" class="form-control" />
+                            <input type="text" name="form-search" id="search" onkeypress="show()" placeholder="Bạn muốn tìm gì?" class="form-control" />
                             <button name="btn-search" class="btn btn-dark ml-2">
                                 <i class="fa-solid fa-magnifying-glass"></i>
                             </button>
+                            <div id="search-hints">
+                               
+                            </div>
                         </form>
                     </div>
                     <div class="login col-md-1 col-sm-1 col-1 ml-auto">
                         <ul class="list-icon">
                             <li>
                                 <a href="index.php?page=giohang"><i class="fa-solid fa-cart-shopping"></i></a>
-                                <span style="position: absolute; top:0; right:2px; color:red">0</span>
-                                
+                                <span style="position: absolute; top:0; right:2px; color:red">
+                                    <?php
+                                    $num_products = 0;
+                                    if (isset($_SESSION['cart'])) {
+                                        foreach ($_SESSION['cart'] as $product) {
+                                            $num_products += $product['quantity'];
+                                        }
+                                    }
+                                    echo $num_products;
+                                    ?>
+                                </span>
+
                             </li>
                             <li class="icon-login-1 ml-2">
                                 <a href="">
@@ -252,26 +291,26 @@ $result = $db ->fetchOne($statement);
                                 <ul class="sub-login">
                                     <?php
                                     if (isset($_SESSION['user1'])) {
-                                        echo '<li><a href="index.php?page=login"">Đăng xuất</a></li>';
-                                    } 
-                                    else{
-                                        echo'<li><a href="index.php?page=sign-up">Đăng ký</a></li>
+                                        echo '<li><a href="index.php?page=login"">Đăng Xuất</a></li>';
+                                        echo '<li><a href="index.php?page=Profile-edit"">Chỉnh Sửa</a></li>';
+                                    } else {
+                                        echo '<li><a href="index.php?page=sign-up">Đăng ký</a></li>
                                         <li><a href="index.php?page=login">Đăng nhập</a></li>';
-                                    }?>
-                                    
+                                    } ?>
+
                                 </ul>
                             </li>
                             <li class="icon-login-2 ml-2">
                                 <i class="fa-regular fa-user"></i>
                                 <ul class="sub-login">
-                                <?php
+                                    <?php
                                     if (isset($_SESSION['user1'])) {
-                                        echo '<li><a href="index.php?page=login" ">Đăng xuất</a></li>';
-                                    } 
-                                    else{
-                                        echo'<li><a href="index.php?page=sign-up">Đăng ký</a></li>
+                                        echo '<li><a href="index.php?page=login" ">Đăng Xuất</a></li>';
+                                        echo '<li><a href="index.php?page=Profile-edit"">Chỉnh Sửa</a></li>';
+                                    } else {
+                                        echo '<li><a href="index.php?page=sign-up">Đăng ký</a></li>
                                         <li><a href="index.php?page=login">Đăng nhập</a></li>';
-                                    }?>
+                                    } ?>
                                 </ul>
                             </li>
                         </ul>
@@ -282,4 +321,3 @@ $result = $db ->fetchOne($statement);
         <?php
 
         ?>
-     

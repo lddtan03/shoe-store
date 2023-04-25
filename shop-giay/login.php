@@ -14,13 +14,6 @@ if (isset($_POST["btn-login"])) {
         // echo "<script type='text/javascript'>alert('Đăng nhập thành công');</script>";
         $db = new Helper();
         $result= $db->fetchOne($statement,$para);
-        // $array = array(
-        //     'id_user' => $result['id_user'],
-        //     'ten_user' => $result['ten_user'],
-        //     'email' => $result['email'],
-        //     'avatar' => $result['avatar']
-            
-        //   );
                 
         $_SESSION["user1"]=$result;
         header("Location: index.php?page=home");

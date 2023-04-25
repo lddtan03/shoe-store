@@ -1,24 +1,39 @@
 <?php
-$_SESSION['phieunhap'] = array();
-unset($_SESSION['thempn']);
+if (isset($_POST['clear'])) {
+    $_SESSION['phieunhap'] = array();
+}
 if (isset($_POST['thempn'])) {
     $statement = $pdo->prepare("SELECT * FROM tbl_size ORDER BY size ASC");
     $statement->execute();
-    $result = $statement->fetchAll(PDO::FETCH_ASSOC);
-    
-    foreach ($result as $row) {
-        $array = array(
-            'id_pro' => $_REQUEST["id_pro"],
-            'ten_pro' => $_REQUEST["ten_pro"],
-            'size' => "39",
-            'soluong' => 3,//$_POST($row['size'])
-            'gia' => 100000
-        );
-        array_push($_SESSION['phieunhap'], $array);
+    $result = $statement->fetchAll(PDO::FETCH_ASSOC); 
+    $size = $_REQUEST["size"];
+    if (isset($_SESSION['phieunnhap'])) {
+        $array = $_SESSION['phieunnhap'];
+    } else {
+        $array = array();
     }
+    $dem = 0;
+    foreach ($size as $row1) {
+        $dem1 = 0;
+        foreach ($result as $row) {
+            if ($row1 > 0 && $dem == $dem1) {
+                $array += array(
+                    'id_pro' => $_REQUEST["id_pro"],
+                    'ten_pro' => $_REQUEST["ten_pro"],
+                    'size' => $row['size'],
+                    'soluong' => $row1,
+                );
+            }
+            $dem1++;
+        }
+        $dem++;
+    }
+    array_push($_SESSION['phieunhap'], $array);
 }
-
 ?>
+<script>
+    window.history.replaceState(null, null, window.location.href);
+</script>
 
 <section class="content-header">
     <div class="content-header-left">
@@ -33,31 +48,44 @@ if (isset($_POST['thempn'])) {
         <div class="col-md-12">
             <div class="box box-info">
                 <div class="row">
-                    <div class="col-md-4 ">
-                        <h3 style="text-align: center;">CHI TIẾT</h3>
-                        <div style="height:400px" class="shadow border">
-                            <div>Tên nhân viên: <strong><?php echo $_SESSION['user']['ten_user'] ?></strong></div>
-                            <div>Nhà cung cấp: <select name="" id=""></select></div>
-                            <div>Ngày nhập: <input type="date"></div>
-                            <div>
-                                Tổng số lượng: <strong>100</strong>
-                                Tổng tiền nhập: <strong>100000tr</strong>
-                            </div>
-                            <button class="btn btn-success">Nhập hàng</button>
+                    <div class="col-md-4">
+                        <h3 style="text-align: center;">PHIẾU NHẬP</h3>
+
+                        <div style="height:400px;" class="shadow border">
+                            <form method="post">
+                                <div class="row">
+                                    <div class="col-md-5 text-right">Tên nhân viên: </div>
+                                    <div class="col-md-7"><strong><?php echo $_SESSION['user']['ten_user'] ?></strong></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-5 text-right">Nhà cung cấp:</div>
+                                    <div class="col-md-7"><strong><?php echo $_SESSION['user']['ten_user'] ?></strong></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-5 text-right">Ngày nhập:</div>
+                                    <div class="col-md-7"><strong><?php echo $_SESSION['user']['ten_user'] ?></strong></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-5">Tổng số lượng: <strong>100</strong></div>
+                                    <dic class="col-md-7">Tổng tiền nhập: <strong>100000tr</strong></dic>
+
+                                </div>
+                                <button class="btn btn-success">Nhập hàng</button>
+                                <input type="submit" name="clear" value="Xóa danh sách" class="btn btn-danger"></input>
+                            </form>
                         </div>
                     </div>
                     <div class="col-md-8">
                         <h3 style="text-align: center;">DANH SÁCH HÀNG NHẬP</h3>
-                        <div style="height:400px; overflow: scroll;" >
+                        <div style="height:400px; overflow: scroll;">
                             <table class="table table-bordered table-hover table-striped">
                                 <thead class="thead-dark">
                                     <tr>
-                                        <th class="col-md-1 text-center">id</th>
+                                        <th class="col-md-1 text-center">ID Sản Phẩm</th>
                                         <th class="col-md-3">Tên sản phẩm</th>
-                                        <th class="col-md-2">Giá nhập</th>
-                                        <th class="col-md-1">Size</th>
+                                        <th class="col-md-1 text-center">Size</th>
                                         <th class="col-md-1 text-center">Số lượng</th>
-                                        <th class="col-md-1">Hành động</th>
+                                        <th class="col-md-1 text-center">Hành động</th>
                                     </tr>
                                 </thead>
                                 <tbody s>
@@ -65,12 +93,11 @@ if (isset($_POST['thempn'])) {
                                     foreach ($_SESSION['phieunhap'] as $spnh) {
                                     ?>
                                         <tr class="dong">
-                                            <td><?php echo $spnh['id_pro'] ?></td>
-                                            <td><?php echo $spnh['id_pro'] ?></td>
-                                            <td><?php echo $spnh['id_pro'] ?></td>
-                                            <td><?php echo $spnh['size'] ?></td>
-                                            <td><?php echo $spnh['soluong'] ?></td>
-                                            <td><button>Xóas</button></td>
+                                            <td class="text-center"><?php echo $spnh['id_pro'] ?></td>
+                                            <td><?php echo $spnh['ten_pro'] ?></td>
+                                            <td class="text-center"><?php echo $spnh['size'] ?></td>
+                                            <td class="text-center"><?php echo $spnh['soluong'] ?></td>
+                                            <td class="text-center btn btn-danger">Xóa</a></td>
                                         </tr>
                                     <?php
                                     }
@@ -133,7 +160,7 @@ if (isset($_POST['thempn'])) {
             </div>
 </section>
 
-<div class="modal fade" id="themgiohang" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal model-lg fade" id="themgiohang" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -141,11 +168,12 @@ if (isset($_POST['thempn'])) {
                 <h4 class="modal-title" id="myModalLabel">THÊM VÀO DANH SÁCH</h4>
             </div>
             <div class="modal-body">
+
                 <form method="post">
                     <div class="mb-3" style="margin-bottom: 20px;"> Nhập số lượng:</div>
-                    <div class="d-flex">
-                        <input type="text" hidden name="id_pro" value="" id="id_an">
-                        <input type="text" hidden name="ten_pro" value="" id="tensp">
+                    <div class="d-flex row">
+                        <input type="text" hidden name="id_pro" value="" id="id_pro">
+                        <input type="text" hidden name="ten_pro" value="" id="ten_pro">
                         <?php
                         $statement = $pdo->prepare("SELECT * FROM tbl_size ORDER BY size ASC");
                         $statement->execute();
@@ -153,17 +181,17 @@ if (isset($_POST['thempn'])) {
                         foreach ($result as $row) {
                         ?>
                             <div style="float:left; margin-right:10px;">
-                                <label for="" class="control-label"><?php echo $row['size']; ?><input type="text" style="width:30px; margin-left:5px;" name="<?php echo $row['size']; ?>"></label>
+                                <label for="" class="control-label"><?php echo $row['size']; ?><input type="text" style="width:30px; margin-left:5px;" name="size[]"></label>
                             </div>
                         <?php
                         }
                         ?>
                     </div>
-                    <div class="mt-3" style="clear: both;">Nhập giá: <input type="text" name="gia"></div>
-                    <button type="submit" class="btn btn-success" value="Xác nhận" name="thempn">Xác nhận</button>
+                    <div class="row text-center"><button type="submit" class="btn btn-success" value="Xác nhận" name="thempn">Xác nhận</button></div>
                 </form>
 
             </div>
+
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
             </div>
@@ -218,15 +246,22 @@ if (isset($_POST['thempn'])) {
         xmlhttp.onreadystatechange = function() {
             if (this.readyState == 4 && this.status == 200) {
                 document.getElementById("soluongsize").innerHTML = this.responseText;
-
             }
         }
         xmlhttp.open("GET", "../Model/product-soluong.php?id_pro=" + p, true);
         xmlhttp.send();
     }
 
-    function truyenid(id,tensp) {
-        document.getElementById("id_an").value = id;
-        document.getElementById("tensp").value = tensp;
+    function layTenNe(p) {
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                var inra = this.responseText.split("???");
+                document.getElementById("id_pro").value = inra[0];
+                document.getElementById("ten_pro").value = inra[1];
+            }
+        }
+        xmlhttp.open("GET", "../Model/LayTen.php?id_pro=" + p, true);
+        xmlhttp.send();
     }
 </script>
