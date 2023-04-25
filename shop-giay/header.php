@@ -272,7 +272,7 @@ $result = $db->fetchOne($statement);
                         <ul class="list-icon">
                             <li>
                                 <a href="index.php?page=giohang"><i class="fa-solid fa-cart-shopping"></i></a>
-                                <span style="position: absolute; top: 0px; right:0px; color:#e74c3c; border-radius: 100%; background: white; width: 20px; height: 20px; display:block; text-align:center; line-height: 20px; font-weight: bold;">
+                                <span style="position: absolute; top: 0px; right:-5px; color:#e74c3c; border-radius: 100%; background: white; width: 20px; height: 20px; display:block; text-align:center; line-height: 20px; font-weight: bold;">
                                     <?php
                                     $num_products = 0;
                                     if (isset($_SESSION['cart'])) {
