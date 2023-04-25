@@ -5,7 +5,7 @@ if (isset($_POST['clear'])) {
 if (isset($_POST['thempn'])) {
     $statement = $pdo->prepare("SELECT * FROM tbl_size ORDER BY size ASC");
     $statement->execute();
-    $result = $statement->fetchAll(PDO::FETCH_ASSOC); 
+    $result = $statement->fetchAll(PDO::FETCH_ASSOC);
     $size = $_REQUEST["size"];
     if (isset($_SESSION['phieunnhap'])) {
         $array = $_SESSION['phieunnhap'];
@@ -51,27 +51,28 @@ if (isset($_POST['thempn'])) {
                     <div class="col-md-4">
                         <h3 style="text-align: center;">PHIẾU NHẬP</h3>
 
-                        <div style="height:400px;" class="shadow border">
+                        <div style="height:400px; border: 1px solid black; border-radius: 15px; padding: 20px 2px;">
                             <form method="post">
-                                <div class="row">
-                                    <div class="col-md-5 text-right">Tên nhân viên: </div>
-                                    <div class="col-md-7"><strong><?php echo $_SESSION['user']['ten_user'] ?></strong></div>
+                                <div class="row" style="margin: 5px 0; text-align:center;">
+                                    <div class="col-md-5 text-right"><span style="font-size: 2rem;">Tên nhân viên: </span></div>
+                                    <div class="col-md-7"><strong style="font-size: 2rem;"><?php echo $_SESSION['user']['ten_user'] ?></strong></div>
                                 </div>
-                                <div class="row">
-                                    <div class="col-md-5 text-right">Nhà cung cấp:</div>
-                                    <div class="col-md-7"><strong><?php echo $_SESSION['user']['ten_user'] ?></strong></div>
+                                <div class="row" style="margin: 5px 0; text-align:center;">
+                                    <div class="col-md-5 text-right" style="font-size: 2rem;">Nhà cung cấp:</div>
+                                    <div class="col-md-7"><strong style="font-size: 2rem;"><?php echo $_SESSION['user']['ten_user'] ?></strong></div>
                                 </div>
-                                <div class="row">
-                                    <div class="col-md-5 text-right">Ngày nhập:</div>
-                                    <div class="col-md-7"><strong><?php echo $_SESSION['user']['ten_user'] ?></strong></div>
+                                <div class="row" style="margin: 5px 0; text-align:center;">
+                                    <div class="col-md-5 text-right" style="font-size: 2rem;">Ngày nhập:</div>
+                                    <div class="col-md-7"><strong style="font-size: 2rem;"><?php echo $_SESSION['user']['ten_user'] ?></strong></div>
                                 </div>
-                                <div class="row">
-                                    <div class="col-md-5">Tổng số lượng: <strong>100</strong></div>
-                                    <dic class="col-md-7">Tổng tiền nhập: <strong>100000tr</strong></dic>
-
+                                <div class="row" style="margin: 5px auto; text-align: center;">
+                                    <div class="col-md-5" style="font-size: 2rem; padding:0;">Tổng số lượng: <strong style="font-size: 2rem;">1000</strong></div>
+                                    <dic class="col-md-7" style="font-size: 2rem; padding:0;">Tổng tiền nhập: <strong style="font-size: 2rem;">100000tr</strong></dic>
                                 </div>
-                                <button class="btn btn-success">Nhập hàng</button>
-                                <input type="submit" name="clear" value="Xóa danh sách" class="btn btn-danger"></input>
+                                <div style="text-align: center; margin-top: 20px; display:flex; justify-content: center;">
+                                    <button class="btn btn-success" style="font-size: 2rem; margin-right: 20px;">Nhập hàng</button>
+                                    <input type="submit" name="clear" value="Xóa danh sách" class="btn btn-danger" style="font-size: 2rem!important;"></input>
+                                </div>
                             </form>
                         </div>
                     </div>
@@ -88,18 +89,20 @@ if (isset($_POST['thempn'])) {
                                         <th class="col-md-1 text-center">Hành động</th>
                                     </tr>
                                 </thead>
-                                <tbody s>
+                                <tbody>
                                     <?php
-                                    foreach ($_SESSION['phieunhap'] as $spnh) {
+                                    if (isset($_SESSION['phieunhap'])) {
+                                        foreach ($_SESSION['phieunhap'] as $spnh) {
                                     ?>
-                                        <tr class="dong">
-                                            <td class="text-center"><?php echo $spnh['id_pro'] ?></td>
-                                            <td><?php echo $spnh['ten_pro'] ?></td>
-                                            <td class="text-center"><?php echo $spnh['size'] ?></td>
-                                            <td class="text-center"><?php echo $spnh['soluong'] ?></td>
-                                            <td class="text-center btn btn-danger">Xóa</a></td>
-                                        </tr>
+                                            <tr class="dong">
+                                                <td class="text-center"><?php echo $spnh['id_pro'] ?></td>
+                                                <td><?php echo $spnh['ten_pro'] ?></td>
+                                                <td class="text-center"><?php echo $spnh['size'] ?></td>
+                                                <td class="text-center"><?php echo $spnh['soluong'] ?></td>
+                                                <td class="text-center btn btn-danger">Xóa</a></td>
+                                            </tr>
                                     <?php
+                                        }
                                     }
                                     ?>
                                 </tbody>
@@ -109,24 +112,23 @@ if (isset($_POST['thempn'])) {
 
                     <div class="box-body table-responsive">
                         <div class="wrap col-md-12">
-                            <div class="m-5 ">
-                                <form>
-                                    <div class="" style="float:left;">
+                            <div class="m-5">
+                                <form style="display:flex; margin: 30px 0 10px 0;">
+                                    <div style="padding: 0 20px;">
                                         Search <input type="text" id="search" placeholder="ID or Name">
-
                                     </div>
-                                    <div class="" style="float:left;">
+                                    <div style="padding: 0 20px;">
                                         Nhãn hiệu <select name="" id="">
                                             <option value="">Nike</option>
                                         </select>
 
                                     </div>
-                                    <div class="" style="float:left;">
+                                    <div style="padding: 0 20px;">
                                         Danh mục <select name="" id="">
                                             <option value="">Giày sân cỏ</option>
                                         </select>
                                     </div>
-                                    <div class="" style="float:left;"><input type="button" id="tim" value="Tim" onclick="show(1)"></div>
+                                    <div style="padding: 0 20px;"><input type="button" id="tim" value="Tim" onclick="show(1)"></div>
 
                                 </form>
                             </div>
