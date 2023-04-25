@@ -16,6 +16,7 @@ $result = $db->fetchOne($statement);
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
@@ -42,18 +43,18 @@ $result = $db->fetchOne($statement);
         }
     </style>
     <script defer>
-	function show() {
-		var search = document.getElementById("search").value;
-		var xmlhttp = new XMLHttpRequest();
-		xmlhttp.onreadystatechange = function() {
-			if (this.readyState == 4 && this.status == 200) {
-				document.getElementById("search-hints").innerHTML= this.responseText;
-			}
-		}
-		xmlhttp.open("GET", "HienThiGoiY.php?search=" + search, true);
-		xmlhttp.send();
-	}
-</script>
+        function show() {
+            var search = document.getElementById("search").value;
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    document.getElementById("search-hints").innerHTML = this.responseText;
+                }
+            }
+            xmlhttp.open("GET", "HienThiGoiY.php?search=" + search, true);
+            xmlhttp.send();
+        }
+    </script>
 
 </head>
 
@@ -79,7 +80,7 @@ $result = $db->fetchOne($statement);
                     }
                     ?>
                     <div class="mr-3 mt-4" id="ttdn">
-                        <img src="../uploads/<?php echo $avatar ?>" alt="" style="width:50px;">
+                        <img src="../uploads/<?php echo $avatar ?>" alt="" style="width:80px; height: 80px; border-radius: 100%;">
                         <?php echo $ten_user ?>
                     </div>
 
@@ -105,7 +106,7 @@ $result = $db->fetchOne($statement);
                                     <a href="index.php?page=product">Thương hiệu <i class="fa-solid fa-sort-down"></i></a>
                                     <ul class="sub-menu">
                                         <li>
-                                            <a  href="index.php?page=product&nhanhieu=nike">Nike </i></a>
+                                            <a href="index.php?page=product&nhanhieu=nike">Nike </i></a>
 
                                         </li>
                                         <li>
@@ -263,7 +264,7 @@ $result = $db->fetchOne($statement);
                                 <i class="fa-solid fa-magnifying-glass"></i>
                             </button>
                             <div id="search-hints">
-                               
+
                             </div>
                         </form>
                     </div>
@@ -271,7 +272,7 @@ $result = $db->fetchOne($statement);
                         <ul class="list-icon">
                             <li>
                                 <a href="index.php?page=giohang"><i class="fa-solid fa-cart-shopping"></i></a>
-                                <span style="position: absolute; top:0; right:2px; color:red">
+                                <span style="position: absolute; top: 0px; right:0px; color:#e74c3c; border-radius: 100%; background: white; width: 20px; height: 20px; display:block; text-align:center; line-height: 20px; font-weight: bold;">
                                     <?php
                                     $num_products = 0;
                                     if (isset($_SESSION['cart'])) {

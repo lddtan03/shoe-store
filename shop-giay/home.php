@@ -270,7 +270,6 @@
                                             <a href="" class="name-type name-box-body text-dark text-justify"><?php echo $row['ten_pro'] ?></a>
                                             <span class="price-box-body d-block text-center text-danger"><?php echo money($row['giamoi']) ?></span>
                                         </div>
-
                                     <?php
                                     }
                                     ?>

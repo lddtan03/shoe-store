@@ -146,12 +146,12 @@ $avatar     = $_SESSION['user1']['avatar'];
 		<div class="col-md-12">
 			<div class="nav-tabs-custom">
 				<ul class="nav nav-tabs mt-2 mb-2">
-					<li class="tabne" class="active"><a href="#tab_1" data-toggle="tab">Update Information</a></li>
-					<li class="tabne"><a href="#tab_2" data-toggle="tab">Update avatar</a></li>
-					<li class="tabne"><a href="#tab_3" data-toggle="tab">Update Password</a></li>
+					<li class="tabne"><a href="#tab_1" class="title-nav-tab nav-item nav-link active" data-toggle="tab" style="font-size: medium;">Update Information</a></li>
+					<li class="tabne"><a href="#tab_2" class="title-nav-tab nav-item nav-link" data-toggle="tab" style="font-size: medium;">Update avatar</a></li>
+					<li class="tabne"><a href="#tab_3" class="title-nav-tab nav-item nav-link" data-toggle="tab" style="font-size: medium;">Update Password</a></li>
 				</ul>
 				<div class="tab-content">
-					<div class="tab-pane active" id="tab_1">
+					<div class="tab-pane fade show active" id="tab_1">
 						<form class="form-horizontal" action="" method="post">
 							<div class="box box-info">
 								<div class="box-body">
@@ -165,7 +165,7 @@ $avatar     = $_SESSION['user1']['avatar'];
 										<label for="" class="col-sm-2 control-label">Họ Tên<span>*</span></label>
 
 										<div class="col-sm-4" style="padding-top:7px;">
-											<input type="text" name="hoten" id="" value="<?php echo $full_name ?>">
+											<input type="text" class="form-control" name="hoten" id="" value="<?php echo $full_name ?>">
 										</div>
 									</div>
 									<div class="form-group">
@@ -191,7 +191,7 @@ $avatar     = $_SESSION['user1']['avatar'];
 							</div>
 						</form>
 					</div>
-					<div class="tab-pane" id="tab_2">
+					<div class="tab-pane fade show" id="tab_2">
 						<form class="form-horizontal" action="" method="post" enctype="multipart/form-data">
 							<div class="box box-info">
 								<div class="box-body">
@@ -211,7 +211,7 @@ $avatar     = $_SESSION['user1']['avatar'];
 							</div>
 						</form>
 					</div>
-					<div class="tab-pane" id="tab_3">
+					<div class="tab-pane fade show" id="tab_3">
 						<form class="form-horizontal" action="" method="post">
 							<div class="box box-info">
 								<div class="box-body">
