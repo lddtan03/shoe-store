@@ -58,6 +58,22 @@
         border: none;
 
     }
+
+    a .box-body {
+        overflow: hidden;
+    }
+
+    .cart a{
+        display: block;
+    }
+
+    .img-box-body {
+        transition: all .3s;
+    }
+
+    .img-box-body:hover {
+        transform: scale(1.1);
+    }
 </style>
 <script>
     function laygia() {
@@ -169,9 +185,9 @@
             <div class="text_Sr">
                 TẤT CẢ SẢN PHẨM
             </div>
-            
+
             <div class="sort">
-                
+
                 <label>Sắp xếp theo : </label>
 
                 <div class="select-product">
@@ -188,7 +204,7 @@
 
                     </select>
                 </div>
-                
+
 
                 <div class="locsanpham">
 
@@ -281,16 +297,16 @@
             <div class="container py-5 ">
                 <div class="row" id="product-list">
                     <?php
-                    $para=[];
+                    $para = [];
                     if (isset($_GET['nhanhieu']) && isset($_GET['loai'])) {
-                        $stmt='select * from tbl_product';
+                        $stmt = 'select * from tbl_product';
                     } else if (isset($_GET['nhanhieu'])) {
-                        $stmt="select * from tbl_product join tbl_nhanhieu on tbl_nhanhieu.id_nh=tbl_product.id_nh where nhanhieu regexp ? limit 6";
-                        $para=[$_GET['nhanhieu']];
+                        $stmt = "select * from tbl_product join tbl_nhanhieu on tbl_nhanhieu.id_nh=tbl_product.id_nh where nhanhieu regexp ? limit 6";
+                        $para = [$_GET['nhanhieu']];
                     } else if (isset($_GET['loai'])) {
-                        $stmt='select * from tbl_product';
+                        $stmt = 'select * from tbl_product';
                     } else {
-                        $stmt='select * from tbl_product';
+                        $stmt = 'select * from tbl_product';
                     }
                     $conn = new Helper();
                     $result = $conn->fetchAll($stmt, $para);
@@ -299,12 +315,12 @@
                     ?>
 
                         <div class="col-md-6 col-lg-4 mb-2 mb-lg-0  ">
-                            <div class="card mb-4 position-relative" style="height:600px">
+                            <div class="card mb-4 position-relative ">
                                 <!-- <div class="position-absolute p-2  " style="top:0;left:0; background-color:bisque; color:tomato;">-30%</div>
                                 <div class="position-absolute p-2  " style="top:0;right:0; background-color:red; color:white;"> New</div> -->
 
                                 <a href="chitietsp.php?id=<?php echo $row['id_pro']; ?>">
-                                    <div style="width:100%; height:auto;"> <img  src="../uploads/<?php echo $row['hinhanh']; ?>" class="card-img-top" alt=""></div>
+                                    <div style="max-width:100%; height:auto;" class="box-body"> <img src="../uploads/<?php echo $row['hinhanh']; ?>" class="card-img-top img-box-body" alt=""></div>
                                 </a>
                                 <div class="card-body">
                                     <div class="d-flex justify-content-between">
@@ -341,7 +357,7 @@
 
             </div>
             <nav aria-label="Page navigation">
-                <ul class="pagination" id="trang" >
+                <ul class="pagination" id="trang">
                 </ul>
             </nav>
         </section>
@@ -401,7 +417,7 @@
                     data: {
                         brands: [],
                         sizes: [],
-                        page:1
+                        page: 1
                     },
                     success: function(response) {
                         var inra = response.split("???");
