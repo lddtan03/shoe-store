@@ -1,31 +1,37 @@
-
 <style>
-	* {
-		font-size: 15px;
-	}
+    * {
+        font-size: 15px;
+    }
 
-	table {
-		margin-top: 30px;
-	}
+    table {
+        margin-top: 30px;
+    }
 
-	th {
-		background-color: aqua;
-	}
+    th {
+        background-color: aqua;
+    }
 
-	thead :first-child {
-		border-top-left-radius: 20px;
-	}
+    thead :first-child {
+        border-top-left-radius: 20px;
+    }
 
-	thead :last-child {
-		border-top-right-radius: 20px;
-	}
-	.dong {
-		border-bottom: 2px groove;
-	}
-    a:hover{
+    thead :last-child {
+        border-top-right-radius: 20px;
+    }
+
+    .dong {
+        border-bottom: 2px groove;
+    }
+
+    a:hover {
         cursor: pointer;
     }
 </style>
+<script>
+    if (window.history.replaceState) {
+        window.history.replaceState(null, null, window.location.href);
+    }
+</script>
 <?php
 require_once("../View/header.php");
 ob_start();

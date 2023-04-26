@@ -1,27 +1,21 @@
 <?php
-// include('./Helper.php');
 unset($_SESSION['user1']);
 if (isset($_POST["btn-login"])) {
     $db = new Helper();
     $statement="SELECT * FROM tbl_users WHERE email=? and matkhau=?";
     $para=[$_POST['username'],$_POST['password']];
     $count = $db->rowCount($statement,$para);
-    echo $_POST['username'];
-    echo $_POST['password'];
     if($count==0){
         echo "<script type='text/javascript'>alert('Tên đăng nhập hoặc mật khẩu sai');</script>";
     }else{
-        // echo "<script type='text/javascript'>alert('Đăng nhập thành công');</script>";
+        echo "<script type='text/javascript'>alert('Đăng nhập thành công');</script>";
         $db = new Helper();
         $result= $db->fetchOne($statement,$para);
-                
         $_SESSION["user1"]=$result;
         header("Location: index.php?page=home");
         
-    }
-    
+    } 
 }
-
 ?>
        <script defer>
           function resetdn(){

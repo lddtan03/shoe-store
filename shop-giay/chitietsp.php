@@ -11,47 +11,52 @@ if (!function_exists('money')) {
 
 
 // truy vấn
-$conn=new Helper();
+$conn = new Helper();
 $product_id = $_GET['id'];
 $stmt = "SELECT * FROM tbl_product join tbl_nhanhieu on tbl_product.id_nh = tbl_nhanhieu.id_nh join tbl_danhmuc on tbl_product.id_dm = tbl_danhmuc.id_dm WHERE id_pro = ?";
-$para=[$product_id];
-$product = $conn->fetchOne($stmt,$para);
+$para = [$product_id];
+$product = $conn->fetchOne($stmt, $para);
 $product_temp = $product;
 $temp = $product;
 $viewmoi = $temp['total_view'] + 1;
 // Tăng view
 
-$stmt ="UPDATE tbl_product set total_view = $viewmoi WHERE id_pro = ?";
-$para=[$product_id];
-$conn->execute($stmt,$para);
+$stmt = "UPDATE tbl_product set total_view = $viewmoi WHERE id_pro = ?";
+$para = [$product_id];
+$conn->execute($stmt, $para);
 
 if (!$product) {
   header('Location: index.php?page=home');
-
 }
 
-$conn=new Helper();
-$stmt= "SELECT size,soluong FROM tbl_pro_soluong as ps join tbl_size on ps.id_size =tbl_size.id_size WHERE id_pro = $product_id"; 
-$result_size =$conn->fetchAll($stmt);
+$conn = new Helper();
+$stmt = "SELECT size,soluong FROM tbl_pro_soluong as ps join tbl_size on ps.id_size =tbl_size.id_size WHERE id_pro = $product_id";
+$result_size = $conn->fetchAll($stmt);
 $products_size = array();
-foreach($result_size as $row){
+foreach ($result_size as $row) {
   $products_size[] = $row;
 }
 
 $quantity_temp  = 1;
 if (isset($_POST['product_id'])) {
-  $quantity_temp=$_REQUEST["quantity_temp"];
+  $quantity_temp = $_REQUEST["quantity_temp"];
   $product_id = $_POST['product_id'];
   $product = $temp;
 
   if (isset($_SESSION['cart'][$product_id])) {
-    $_SESSION['cart'][$product_id]['quantity']+=$quantity_temp;
+    $_SESSION['cart'][$product_id]['quantity'] += $quantity_temp;
   } else {
     $product['quantity'] = $quantity_temp;
     $_SESSION['cart'][$product_id] = $product;
   }
 }
 ?>
+<script>
+  function thongbao() {
+    alert('Đã Thêm Vào Giỏ Hàng');
+  }
+</script>
+
 <div id="wrapper">
   <!-- <?php
         echo ($product_id);
@@ -106,7 +111,7 @@ if (isset($_POST['product_id'])) {
                       <input type="text" style="width: 40px; text-align:center;" id="soluong" name="quantity_temp" min="0" value="<?php echo $quantity_temp; ?>" readonly>
                       <span class="quantity-btn plus" onclick="TangGiamSL(1)"><img src="../uploads/add.jpg" style="width:40px ;"></span>
                     </div>
-                    <button type="submit" class="btn btn-info ml-2" name="add_to_cart">Thêm vào giỏ</button>
+                    <button type="submit" class="btn btn-info ml-2" name="add_to_cart" onclick="thongbao()">Thêm vào giỏ</button>
                   </form>
                 </div>
               </div>
@@ -132,38 +137,24 @@ if (isset($_POST['product_id'])) {
       <div class="container text-center">
         <h3 class="my-4">Sản phẩm liên quan</h3>
         <div class="row">
-          <div class="col-md-3 col-sm-6 col-6 mb-4">
-            <a href="" class="img-box-body">
-              <img src="assets/images/a-banh-nike-zoom-mercurial-vapor-15-academy-tf-dj5635-146-trang-xanh-1_16d876477ba945ff8659338ea6012fed_large.webp" alt="" />
-            </a>
-            <a href="" class="name-type name-box-body text-dark text-justify">NIKE ZOOM MERCURIAL VAPOR 15 ACADEMY TF - DJ5635-146 -
-              TRẮNG/XANH</a>
-            <span class="price-box-body d-block text-center text-danger">2.000.000đ</span>
-          </div>
-          <div class="col-md-3 col-sm-6 col-6 mb-4">
-            <a href="" class="img-box-body">
-              <img src="assets/images/a-banh-nike-zoom-mercurial-vapor-15-academy-tf-dj5635-146-trang-xanh-1_16d876477ba945ff8659338ea6012fed_large.webp" alt="" />
-            </a>
-            <a href="" class="name-type name-box-body text-dark text-justify">NIKE ZOOM MERCURIAL VAPOR 15 ACADEMY TF - DJ5635-146 -
-              TRẮNG/XANH</a>
-            <span class="price-box-body d-block text-center text-danger">2.000.000đ</span>
-          </div>
-          <div class="col-md-3 col-sm-6 col-6 mb-4">
-            <a href="" class="img-box-body">
-              <img src="assets/images/a-banh-nike-zoom-mercurial-vapor-15-academy-tf-dj5635-146-trang-xanh-1_16d876477ba945ff8659338ea6012fed_large.webp" alt="" />
-            </a>
-            <a href="" class="name-type name-box-body text-dark text-justify">NIKE ZOOM MERCURIAL VAPOR 15 ACADEMY TF - DJ5635-146 -
-              TRẮNG/XANH</a>
-            <span class="price-box-body d-block text-center text-danger">2.000.000đ</span>
-          </div>
-          <div class="col-md-3 col-sm-6 col-6 mb-4">
-            <a href="" class="img-box-body">
-              <img src="assets/images/a-banh-nike-zoom-mercurial-vapor-15-academy-tf-dj5635-146-trang-xanh-1_16d876477ba945ff8659338ea6012fed_large.webp" alt="" />
-            </a>
-            <a href="" class="name-type name-box-body text-dark text-justify">NIKE ZOOM MERCURIAL VAPOR 15 ACADEMY TF - DJ5635-146 -
-              TRẮNG/XANH</a>
-            <span class="price-box-body d-block text-center text-danger">2.000.000đ</span>
-          </div>
+          <?php
+          $db = new Helper();
+          $product_id = $_GET['id'];
+          $stmt = "SELECT * FROM tbl_product where id_dm = (select id_dm from tbl_product WHERE id_pro = ?) and id_pro <> ? limit 4";
+          $para = [$product_id, $product_id];
+          $product = $db->fetchAll($stmt, $para);
+          foreach ($product as $sp) {
+          ?>
+            <div class="col-md-3 col-sm-6 col-6 mb-4">
+              <a href="chitietsp.php?id=<?php echo $sp['id_pro']; ?>" class="img-box-body">
+                <img src="../uploads/<?php echo $sp['hinhanh'] ?>" alt="" />
+              </a>
+              <a href="chitietsp.php?id=<?php echo $sp['id_pro']; ?>" class="name-type name-box-body text-justify" style="color:blue; font-weight: bold;"><?php echo $sp['ten_pro']; ?></a>
+              <span class="price-box-body d-block text-center text-danger"><?php echo money($sp['giamoi']); ?></span>
+            </div>
+          <?php
+          }
+          ?>
         </div>
       </div>
     </div>
@@ -171,10 +162,10 @@ if (isset($_POST['product_id'])) {
   <!-- end product-detail -->
 </div>
 <script>
-  function TangGiamSL(sl){
-    var ht=document.getElementById("soluong").value;
-    if(ht*1+sl*1>0){
-      document.getElementById("soluong").value=ht*1+sl*1;
+  function TangGiamSL(sl) {
+    var ht = document.getElementById("soluong").value;
+    if (ht * 1 + sl * 1 > 0) {
+      document.getElementById("soluong").value = ht * 1 + sl * 1;
     }
   }
 </script>

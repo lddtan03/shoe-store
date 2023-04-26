@@ -63,7 +63,7 @@
         overflow: hidden;
     }
 
-    .cart a{
+    .cart a {
         display: block;
     }
 
@@ -287,35 +287,34 @@
                             </form>
                         </div>
                     </div>
-
-
                 </div>
-
             </div>
         </div>
         <section style="background-color: #eee;">
-            <div class="container py-5 ">
+            <div class="container pt-4 ">
                 <div class="row" id="product-list">
                     <?php
                     $para = [];
-                    if (isset($_GET['nhanhieu']) && isset($_GET['loai'])) {
-                        $stmt = 'select * from tbl_product';
-                    } else if (isset($_GET['nhanhieu'])) {
-                        $stmt = "select * from tbl_product join tbl_nhanhieu on tbl_nhanhieu.id_nh=tbl_product.id_nh where nhanhieu regexp ? limit 6";
-                        $para = [$_GET['nhanhieu']];
-                    } else if (isset($_GET['loai'])) {
-                        $stmt = 'select * from tbl_product';
+                    if (isset($_GET['nhanhieu'])) {
+                        $nhloc = $_GET['nhanhieu'];
                     } else {
-                        $stmt = 'select * from tbl_product';
+                        $nhloc = "";
                     }
+                    if (isset($_GET['danhmuc'])) {
+                        $dmloc = $_GET['danhmuc'];
+                    } else {
+                        $dmloc = "";
+                    }
+                    $stmt = "select * from tbl_product join tbl_danhmuc on tbl_danhmuc.id_dm = tbl_product.id_dm  where id_nh regexp ? and tbl_product.id_dm regexp ? limit 6 ";
+                    $para = [$nhloc, $dmloc];
                     $conn = new Helper();
                     $result = $conn->fetchAll($stmt, $para);
                     $products = $result;
                     foreach ($result as $row) {
                     ?>
 
-                        <div class="col-md-6 col-lg-4 mb-2 mb-lg-0  ">
-                            <div class="card mb-4 position-relative ">
+                        <div class="col-md-6 col-lg-4  mb-lg-0 ">
+                            <div class="card mb-4 position-relative" style="height: 580px;">
                                 <!-- <div class="position-absolute p-2  " style="top:0;left:0; background-color:bisque; color:tomato;">-30%</div>
                                 <div class="position-absolute p-2  " style="top:0;right:0; background-color:red; color:white;"> New</div> -->
 
@@ -324,13 +323,15 @@
                                 </a>
                                 <div class="card-body">
                                     <div class="d-flex justify-content-between">
-                                        <p class="small"><a href="#!" class="text-muted">Loại sản phẩm</a></p>
+                                        <p class="small"><a href="#!" class="text-muted"><?php echo $row['danhmuc'] ?></a></p>
                                         <p class=""></p>
                                         <p class="small text-danger"><s><?php echo money($row['giacu']) ?></s></p>
                                     </div>
 
                                     <div class="d-flex justify-content-between mb-3">
-                                        <h5 class="mb-0"><?php echo $row['ten_pro'] ?></h5>
+                                        <a href="chitietsp.php?id=<?php echo $row['id_pro']; ?>" style="text-decoration: none;">
+                                            <h5 class="mb-0"><?php echo $row['ten_pro'] ?></h5>
+                                        </a>
                                         <h5 class="text-dark mb-0"><?php echo money($row['giamoi']) ?></h5>
                                     </div>
 
@@ -349,15 +350,28 @@
                         </div>
                     <?php
                     }
-
                     ?>
                 </div>
-
-
-
             </div>
-            <nav aria-label="Page navigation">
-                <ul class="pagination" id="trang">
+            <nav aria-label="Page navigation" style="width: 100%; display: flex; justify-content: center; padding-bottom: 20px;">
+                <ul class="pagination" id="trang" style="width: 400px; display: flex; justify-content: center; overflow-x: scroll;">
+                <?php
+                    $stmt = "select * from tbl_product join tbl_danhmuc on tbl_danhmuc.id_dm = tbl_product.id_dm  where id_nh regexp ? and tbl_product.id_dm regexp ?";
+                    $para = [$nhloc, $dmloc];
+                    $db = new Helper();
+                    $dem=$db->rowCount($stmt,$para);
+                    $sotrang = round($dem / 6 + 0.4);
+                    ?>
+                    <li class="page-item "><a class="page-link" onclick="">Previous</a></li>
+                    <input type="text" name="page" id="page" value="1" hidden>
+                    <?php
+                    for ($i = 1; $i <= $sotrang; $i++) {
+                    ?>
+                        <li class="page-item <?php if ($i==1) echo "active"; ?>"><a class="page-link" onclick="DoiTrang(<?php echo $i; ?>)"></php><?php echo $i; ?></a></li>
+                    <?php
+                    }
+                    ?>
+                    <li class="page-item "><a class="page-link" onclick="show()">Next</a></li>
                 </ul>
             </nav>
         </section>
@@ -383,9 +397,6 @@
             }
         });
     });
-
-
-
     // Thêm sự kiện "click" cho toàn bộ trang web để đóng cửa sổ khi người dùng bấm ra ngoài
 
     function showPopup() {
@@ -399,9 +410,8 @@
     }
     // suu kien loc
 
-
     $(document).ready(function() {
-        $('input[name="brand[]"], input[name="size[]"]').click(function() {
+        $('input[name="brand[]"], input[name="size[]"] ,.min, .max, .page-item').click(function() {
             var brands = $('input[name="brand[]"]:checked').map(function() {
                 return this.id;
             }).get();
@@ -410,6 +420,10 @@
                 return this.id;
             }).get();
 
+            var min = VNDtoInt($('#minne').val());
+            var max = VNDtoInt($('#maxne').val());
+            var page = $('#page').val();
+
             if (brands.length == 0 && sizes.length == 0) {
                 $.ajax({
                     url: 'filter.php',
@@ -417,13 +431,14 @@
                     data: {
                         brands: [],
                         sizes: [],
-                        page: 1
+                        min: min,
+                        max: max,
+                        page: page
                     },
                     success: function(response) {
                         var inra = response.split("???");
                         $('#product-list').html(inra[0]);
-                        // document.getElementById("tongsosp").innerText = inra[1];
-                        document.getElementById("trang").innerHTML = inra[2];
+                        document.getElementById("trang").innerHTML = inra[1];
                     }
                 });
             } else {
@@ -432,15 +447,23 @@
                     method: 'POST',
                     data: {
                         brands: brands,
-                        sizes: sizes
+                        sizes: sizes,
+                        min: min,
+                        max: max,
+                        page: page
                     },
                     success: function(response) {
                         var inra = response.split("???");
                         $('#product-list').html(inra[0]);
-                        document.getElementById("trang").innerHTML = inra[2];
+                        document.getElementById("trang").innerHTML = inra[1];
                     }
                 });
             }
         });
     });
+
+    function DoiTrang(p){
+        document.getElementById("page").value=p;
+    }
+
 </script>

@@ -57,10 +57,9 @@ if (isset($_POST['xoa'])) {
     if (isset($_SESSION['cart'][$product_id])) {
         unset($_SESSION['cart'][$product_id]);
     }
+    echo "<script type='text/javascript'>alert('Đã xóa');</script>";
 }
-
 ?>
-
 <body>
     <style>
         @media (min-width: 1200px) {
@@ -108,7 +107,7 @@ if (isset($_POST['xoa'])) {
                             </div>
                             <form method="POST">
                                 <!-- <input type="text" name="id" value="" hidden> -->
-                                <div class="col-md-1"><button name="xoa" value="<?php echo $row['id_pro'] ?>" class="btn btn-danger">Xóa</button></div>
+                                <div class="col-md-1"><button name="xoa" onclick="return confirm('Bạn có muốn xóa không')" value="<?php echo $row['id_pro'] ?>" class="btn btn-danger">Xóa</button></div>
                             </form>
                         </div>
                 <?php
@@ -127,12 +126,19 @@ if (isset($_POST['xoa'])) {
                         $sodth = $_SESSION['user1']['sodth'];
                         $email = $_SESSION['user1']['email'];
                         $diachi = $_SESSION['user1']['diachi'];
+                    } else {
+                        $ten_user = "";
+                        $sodth = "";
+                        $email = "";
+                        $diachi = "";
                     }
                     $tong_tien = 0;
                     $tongsl = 0;
-                    foreach($_SESSION["cart"] as $row){
-                        $tongsl+=$row['quantity'];
-                        $tong_tien+=$row['giamoi']*$row['quantity'];
+                    if (isset($_SESSION["cart"])) {
+                        foreach ($_SESSION["cart"] as $row) {
+                            $tongsl += $row['quantity'];
+                            $tong_tien += $row['giamoi'] * $row['quantity'];
+                        }
                     }
                     ?>
                     <div class="col-xl-11 col-md-12 border shadow py-3 px-4">
@@ -154,10 +160,14 @@ if (isset($_POST['xoa'])) {
                             <h5 class="col-md-8"><strong><?php echo $diachi ?></strong></h5>
                         </div>
                         <div class="row mt-3">
-                            <div class="col-md-7"><h4>Tổng tiền: <strong><?php echo money($tong_tien) ?></strong></h4></div>
-                            <div class="col-md-5">  <h4>Số lượng: <strong><?php echo $tongsl ?></strong></h4></div>
+                            <div class="col-md-7">
+                                <h4>Tổng tiền: <strong><?php echo money($tong_tien) ?></strong></h4>
+                            </div>
+                            <div class="col-md-5">
+                                <h4>Số lượng: <strong><?php echo $tongsl ?></strong></h4>
+                            </div>
                         </div>
-                        
+
                         <div class="row mt-3 d-flex justify-content-between">
                             <!-- <div class="col-md-4"></div> -->
                             <button class="mx-auto btn btn-success">Thanh Toán</button>

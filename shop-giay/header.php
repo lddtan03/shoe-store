@@ -45,6 +45,10 @@ $result = $db->fetchOne($statement);
     <script defer>
         function show() {
             var search = document.getElementById("search").value;
+            if (search.length < 5) {
+                document.getElementById("search-hints").innerHTML = "<div></div>";
+                return
+            }
             var xmlhttp = new XMLHttpRequest();
             xmlhttp.onreadystatechange = function() {
                 if (this.readyState == 4 && this.status == 200) {
@@ -54,8 +58,10 @@ $result = $db->fetchOne($statement);
             xmlhttp.open("GET", "HienThiGoiY.php?search=" + search, true);
             xmlhttp.send();
         }
+        if (window.history.replaceState) {
+            window.history.replaceState(null, null, window.location.href);
+        }
     </script>
-
 </head>
 
 <body>
@@ -85,7 +91,7 @@ $result = $db->fetchOne($statement);
                     </div>
 
                     <form id="form-search-responsive">
-                        <input type="text" name="query" id="search-input" onchange="hienHint()" placeholder="Bạn muốn tìm gì?" />
+                        <input type="text" name="query" id="search-input" onkeypress="show()" onchange="show()" placeholder="Bạn muốn tìm gì?" />
                         <button>
                             <i class="fa-solid fa-magnifying-glass"></i>
                         </button>
@@ -105,70 +111,76 @@ $result = $db->fetchOne($statement);
                                 <li>
                                     <a href="index.php?page=product">Thương hiệu <i class="fa-solid fa-sort-down"></i></a>
                                     <ul class="sub-menu">
-                                        <li>
-                                            <a href="index.php?page=product&nhanhieu=nike">Nike </i></a>
-
-                                        </li>
-                                        <li>
-                                            <a href="index.php?page=product&nhanhieu=Adidas">Adidas</i></a>
-
-                                        </li>
-                                        <li>
-                                            <a href="index.php?page=product&nhanhieu=Puma">Puma</i></a>
-
-                                        </li>
-                                        <li>
-                                            <a href="index.php?page=product&nhanhieu=Mizuno">Mizuno</i></a>
-
-                                        </li>
-                                        <li>
-                                            <a href="index.php?page=product&nhanhieu=Kamito">Kamito</i></a>
-
-                                        </li>
-                                        <li>
-                                            <a href="index.php?page=product&nhanhieu=Joma">Joma</i></a>
-
-                                        </li>
-                                        <li>
-                                            <a href="index.php?page=product&nhanhieu=Asics">Asics</i></a>
-
-                                        </li>
-                                        <li>
-                                            <a href="index.php?page=product&nhanhieu=Athleta">Athleta</a>
-
-                                        </li>
-                                        <li>
-                                            <a href="index.php?page=product&nhanhieu=Desporte">Desporte</a>
-
-                                        </li>
+                                        <?php
+                                        $db = new Helper();
+                                        $stmt = "select * from tbl_nhanhieu";
+                                        $result = $db->fetchAll($stmt);
+                                        foreach ($result as $row) {
+                                        ?>
+                                            <li>
+                                                <a href="index.php?page=product&nhanhieu=<?php echo $row['id_nh'] ?>"><?php echo $row['nhanhieu'] ?> </i></a>
+                                            </li>
+                                        <?php
+                                        }
+                                        ?>
                                     </ul>
                                 </li>
-                                <li>
+                                <?php
+                                $db = new Helper();
+                                $stmt0 = "select * from tbl_danhmuc";
+                                $result0 = $db->fetchAll($stmt0);
+                                foreach ($result0 as $danhmuc) {
+                                ?>
+                                    <li>
+                                        <a href=""><?php echo $danhmuc['danhmuc'] ?> <i class="fa-solid fa-sort-down"></i></a>
+                                        <ul class="sub-menu text-dark">
+                                            <?php
+                                            $db = new Helper();
+                                            $stmt = "select * from tbl_nhanhieu";
+                                            $result = $db->fetchAll($stmt);
+                                            foreach ($result as $nhanhieu) {
+                                            ?>
+                                                <li><a href="index.php?page=product&nhanhieu=<?php echo $nhanhieu['id_nh'] ?>&danhmuc=<?php echo $danhmuc['id_dm'] ?>"><?php echo $nhanhieu['nhanhieu'] ?> </a></li>
+                                            <?php
+                                            }
+                                            ?>
+
+                                        </ul>
+                                    </li>
+                                <?php
+                                }
+                                ?>
+                                <!-- <li>
                                     <a href="">Giày cỏ nhân tạo <i class="fa-solid fa-sort-down"></i></a>
                                     <ul class="sub-menu text-dark">
-                                        <li><a href="">Nike </a></li>
-                                        <li><a href="">Adidas</a></li>
-                                        <li><a href="">Puma</a></li>
-                                        <li><a href="">Mizuno</a></li>
-                                        <li><a href="">Kamito</a></li>
-                                        <li><a href="">Desporte</a></li>
-                                        <li><a href="">Asics</a></li>
+                                        <?php
+                                        $db = new Helper();
+                                        $stmt = "select * from tbl_nhanhieu";
+                                        $result = $db->fetchAll($stmt);
+                                        foreach ($result as $row) {
+                                        ?>
+                                             <li><a href="index.php?page=product&nhanhieu=<?php echo $row['id_nh'] ?>&danhmuc=1"><?php echo $row['nhanhieu'] ?> </a></li>
+                                        <?php
+                                        }
+                                        ?>
+                                       
                                     </ul>
-                                </li>
-                                <li>
-                                    <a href="">Giày futsal <i class="fa-solid fa-sort-down"></i></a>
+                                </li> -->
+                                <!-- <li>
+                                    <a href="">Giày Futsal <i class="fa-solid fa-sort-down"></i></a>
                                     <ul class="sub-menu">
-                                        <li><a href="">Nike</a></li>
-                                        <li><a href="">Adidas</a></li>
-                                        <li><a href="">Puma</a></li>
-                                        <li><a href="">Mizuno</a></li>
-                                        <li><a href="">Kamito</a></li>
-                                        <li><a href="">Joma</a></li>
-                                        <li><a href="">Asics</a></li>
-                                        <li><a href="">Athleta</a></li>
-                                        <li><a href="">Desporte</a></li>
+                                    <?php
+                                    $db = new Helper();
+                                    $stmt = "select * from tbl_nhanhieu";
+                                    $result = $db->fetchAll($stmt);
+                                    foreach ($result as $row) {
+                                    ?>
+                                             <li><a href="index.php?page=product&nhanhieu=<?php echo $row['id_nh'] ?>&danhmuc=2"><?php echo $row['nhanhieu'] ?> </a></li>
+                                        <?php
+                                    }
+                                        ?>
                                     </ul>
-                                </li>
+                                </li> -->
 
                                 <li><a href="">Hot sale</a></li>
                                 <li><a href="index.php?page=chitietsp">Liên hệ</a></li>
@@ -259,7 +271,7 @@ $result = $db->fetchOne($statement);
                     </div>
                     <div class="col-md-5 col-sm-3 position-absolute ">
                         <form action="" id="form-search" style="right:-105%; ">
-                            <input type="text" name="form-search" id="search" onkeypress="show()" placeholder="Bạn muốn tìm gì?" class="form-control" />
+                            <input type="text" name="form-search" id="search" onkeypress="show()" onkeydown="show()" placeholder="Bạn muốn tìm gì?" class="form-control" />
                             <button name="btn-search" class="btn btn-dark ml-2">
                                 <i class="fa-solid fa-magnifying-glass"></i>
                             </button>

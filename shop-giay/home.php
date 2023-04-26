@@ -97,52 +97,16 @@
                 foreach ($result as $row) {
                 ?>
                     <div class="col-md-3 col-sm-6 col-12 mb-4">
-                        <a href="" class="img-new-collection img-box-body">
+                        <a href="chitietsp.php?id=<?php echo $row['id_pro']; ?>" class="img-new-collection img-box-body">
                             <img src="../uploads/<?php echo $row['hinhanh'] ?>" alt="" />
                         </a>
                         <span class="tag-sale">Hàng mới</span>
-                        <a href="" class="name-new-collection name-box-body text-dark text-justify"><?php echo $row['ten_pro'] ?></a>
+                        <a href="chitietsp.php?id=<?php echo $row['id_pro']; ?>" class="name-new-collection name-box-body text-dark text-justify"><?php echo $row['ten_pro'] ?></a>
                         <span class="price-box-body d-block text-center text-danger"><?php echo money($row['giamoi']) ?></span>
                     </div>
                 <?php
                 }
                 ?>
-
-
-                <!-- <div class="col-md-3 col-sm-6 col-12 mb-4">
-                    <a href="" class="img-new-collection img-box-body">
-                        <img src="assets/images/giay-da-banh-adidas-x-speedportal-1-tf-gz2440-hong-den-1_cc7b137934774de683ee301feb05c3de_large.webp" alt="" />
-                    </a>
-                    <span class="tag-sale">Hàng mới</span>
-                    <a href="" class="name-new-collection name-box-body text-dark text-justify">ADIDAS X
-                        SPEEDPORTAL.1 TF - GZ2440 - HỒNG/ĐEN</a>
-                    <span class="price-box-body d-block text-center text-danger">2.000.000đ</span>
-                </div>
-                <div class="col-md-3 col-sm-6 col-12 mb-4">
-                    <a href="" class="img-new-collection img-box-body">
-                        <img src="assets/images/giay-da-banh-puma-future-ultimate-cage-1-4-tf-107174-01-xanh-cam-1_93f45529f0e44ae08a38aa048c92b888_large.webp" alt="" />
-                    </a>
-                    <span class="label-sale">-10%</span>
-                    <span class="tag-sale">Hàng mới</span>
-                    <a href="" class="name-new-collection name-box-body text-dark text-justify">PUMA FUTURE
-                        ULTIMATE CAGE TF - 107174-01 - XANH/CAM</a>
-                    <div class="price text-center">
-                        <span class="price-box-body text-center text-danger">2.000.000đ</span>
-                        <span class="price-old">3.000.000đ</span>
-                    </div>
-                </div>
-                <div class="col-md-3 col-sm-6 col-12 mb-4">
-                    <a href="" class="img-new-collection img-box-body">
-                        <img src="assets/images/giay-da-banh-mizuno-morelia-neo-iii-pro-as-p1gd228401-vang-den-1_e43c7d9aaab849d7ba7a963c9cc2be3e_large.webp" alt="" />
-                    </a>
-                    <span class="label-sale">-20%</span>
-                    <a href="" class="name-new-collection name-box-body text-dark text-justify">MIZUNO MORELIA
-                        NEO III PRO AS TF - P1GD228401 - VÀNG/ĐEN</a>
-                    <div class="price text-center">
-                        <span class="price-box-body text-center text-danger">2.000.000đ</span>
-                        <span class="price-old">3.000.000đ</span>
-                    </div>
-                </div> -->
             </div>
         </div>
     </div>
@@ -264,51 +228,15 @@
                                     foreach ($result as $row) {
                                     ?>
                                         <div class="col-md-3 col-sm-6 mb-4">
-                                            <a href="" class="img-box-body">
+                                            <a href="chitietsp.php?id=<?php echo $row['id_pro']; ?>" class="img-box-body">
                                                 <img src="../uploads/<?php echo $row['hinhanh'] ?>" alt="" />
                                             </a>
-                                            <a href="" class="name-type name-box-body text-dark text-justify"><?php echo $row['ten_pro'] ?></a>
+                                            <a href="chitietsp.php?id=<?php echo $row['id_pro']; ?>" class="name-type name-box-body text-dark text-justify"><?php echo $row['ten_pro'] ?></a>
                                             <span class="price-box-body d-block text-center text-danger"><?php echo money($row['giamoi']) ?></span>
                                         </div>
                                     <?php
                                     }
                                     ?>
-                                    <!-- <div class="col-md-3 col-sm-6 mb-4">
-                                        <a href="" class="img-box-body">
-                                            <img src="assets/images/a-banh-nike-zoom-mercurial-vapor-15-academy-tf-dj5635-146-trang-xanh-1_16d876477ba945ff8659338ea6012fed_large.webp" alt="" />
-                                        </a>
-                                        <a href="" class="name-type name-box-body text-dark text-justify">NIKE
-                                            ZOOM MERCURIAL VAPOR 15 ACADEMY TF -
-                                            DJ5635-146 - TRẮNG/XANH</a>
-                                        <span class="price-box-body d-block text-center text-danger">2.000.000đ</span>
-                                    </div>
-                                    <div class="col-md-3 col-sm-6 mb-4">
-                                        <a href="" class="img-box-body">
-                                            <img src="assets/images/a-banh-nike-zoom-mercurial-vapor-15-academy-tf-dj5635-146-trang-xanh-1_16d876477ba945ff8659338ea6012fed_large.webp" alt="" />
-                                        </a>
-                                        <a href="" class="name-type name-box-body text-dark text-justify">NIKE
-                                            ZOOM MERCURIAL VAPOR 15 ACADEMY TF -
-                                            DJ5635-146 - TRẮNG/XANH</a>
-                                        <span class="price-box-body d-block text-center text-danger">2.000.000đ</span>
-                                    </div>
-                                    <div class="col-md-3 col-sm-6 mb-4">
-                                        <a href="" class="img-box-body">
-                                            <img src="assets/images/a-banh-nike-zoom-mercurial-vapor-15-academy-tf-dj5635-146-trang-xanh-1_16d876477ba945ff8659338ea6012fed_large.webp" alt="" />
-                                        </a>
-                                        <a href="" class="name-type name-box-body text-dark text-justify">NIKE
-                                            ZOOM MERCURIAL VAPOR 15 ACADEMY TF -
-                                            DJ5635-146 - TRẮNG/XANH</a>
-                                        <span class="price-box-body d-block text-center text-danger">2.000.000đ</span>
-                                    </div>
-                                    <div class="col-md-3 col-sm-6 mb-4">
-                                        <a href="" class="img-box-body">
-                                            <img src="assets/images/a-banh-nike-zoom-mercurial-vapor-15-academy-tf-dj5635-146-trang-xanh-1_16d876477ba945ff8659338ea6012fed_large.webp" alt="" />
-                                        </a>
-                                        <a href="" class="name-type name-box-body text-dark text-justify">NIKE
-                                            ZOOM MERCURIAL VAPOR 15 ACADEMY TF -
-                                            DJ5635-146 - TRẮNG/XANH</a>
-                                        <span class="price-box-body d-block text-center text-danger">2.000.000đ</span>
-                                    </div> -->
                                 </div>
                             </div>
                         </div>
@@ -322,52 +250,16 @@
                                     foreach ($result as $row) {
                                     ?>
                                         <div class="col-md-3 col-sm-6 mb-4">
-                                            <a href="" class="img-box-body" style="height: 300px;">
+                                            <a href="chitietsp.php?id=<?php echo $row['id_pro']; ?>" class="img-box-body" style="height: 300px;">
                                                 <img src="../uploads/<?php echo $row['hinhanh'] ?>" alt="" />
                                             </a>
-                                            <a href="" class="name-type name-box-body text-dark text-justify"><?php echo $row['ten_pro'] ?></a>
+                                            <a href="chitietsp.php?id=<?php echo $row['id_pro']; ?>" class="name-type name-box-body text-dark text-justify"><?php echo $row['ten_pro'] ?></a>
                                             <span class="price-box-body d-block text-center text-danger"><?php echo money($row['giamoi']) ?></span>
                                         </div>
 
                                     <?php
                                     }
                                     ?>
-                                    <!-- <div class="col-md-3">
-                                        <a href="" class="img-box-body">
-                                            <img src="assets/images/giay-da-banh-puma-future-ultimate-cage-1-4-tf-107174-01-xanh-cam-1_93f45529f0e44ae08a38aa048c92b888_large.webp" alt="" />
-                                        </a>
-                                        <a href="" class="name-type name-box-body text-dark text-justify">PUMA
-                                            FUTURE ULTIMATE CAGE TF - 107174-01 -
-                                            XANH/CAM</a>
-                                        <span class="price-box-body d-block text-center text-danger">2.000.000đ</span>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <a href="" class="img-box-body">
-                                            <img src="assets/images/giay-da-banh-puma-future-ultimate-cage-1-4-tf-107174-01-xanh-cam-1_93f45529f0e44ae08a38aa048c92b888_large.webp" alt="" />
-                                        </a>
-                                        <a href="" class="name-type name-box-body text-dark text-justify">PUMA
-                                            FUTURE ULTIMATE CAGE TF - 107174-01 -
-                                            XANH/CAM</a>
-                                        <span class="price-box-body d-block text-center text-danger">2.000.000đ</span>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <a href="" class="img-box-body">
-                                            <img src="assets/images/giay-da-banh-puma-future-ultimate-cage-1-4-tf-107174-01-xanh-cam-1_93f45529f0e44ae08a38aa048c92b888_large.webp" alt="" />
-                                        </a>
-                                        <a href="" class="name-type name-box-body text-dark text-justify">PUMA
-                                            FUTURE ULTIMATE CAGE TF - 107174-01 -
-                                            XANH/CAM</a>
-                                        <span class="price-box-body d-block text-center text-danger">2.000.000đ</span>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <a href="" class="img-box-body">
-                                            <img src="assets/images/giay-da-banh-puma-future-ultimate-cage-1-4-tf-107174-01-xanh-cam-1_93f45529f0e44ae08a38aa048c92b888_large.webp" alt="" />
-                                        </a>
-                                        <a href="" class="name-type name-box-body text-dark text-justify">PUMA
-                                            FUTURE ULTIMATE CAGE TF - 107174-01 -
-                                            XANH/CAM</a>
-                                        <span class="price-box-body d-block text-center text-danger">2.000.000đ</span>
-                                    </div> -->
                                 </div>
                             </div>
                         </div>
