@@ -26,6 +26,7 @@ $result = $db->fetchOne($statement);
     <script src="assets/js/main.js"></script>
     <link rel="stylesheet" href="./assets/css/product-detail.css" />
     <link rel="stylesheet" href="assets/css/main.css" />
+    <link rel="stylesheet" href="assets/css/lienHe-footer.css" />
     <title>Shop bán giày</title>
     <link rel="icon" type="image/x-icon" href="../uploads/<?php echo $result['favicon'] ?>">
     <style>
