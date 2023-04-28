@@ -1,0 +1,137 @@
+* {
+  line-height: 1.5;
+  box-sizing: border-box;
+}
+
+ul {
+  padding: 0;
+  list-style: none;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* img.img-thumb {
+  max-width: 400px;
+  height: auto;
+} */
+
+.product-info {
+  flex-direction: column;
+}
+
+.product-info-more span.type {
+  display: inline-block;
+  padding-right: 10px;
+  margin-right: 5px;
+  border-right: 1px solid gray;
+}
+
+.price-new {
+  color: tomato;
+  font-size: 30px;
+  font-weight: 500;
+}
+
+.price-old {
+  color: rgb(138, 149, 160);
+  font-size: 25px;
+  font-weight: 400;
+  text-decoration: line-through;
+}
+
+.size span {
+  font-size: 20px;
+}
+
+.size ul li {
+  margin: 0 5px;
+}
+
+.size ul li a {
+  display: block;
+  padding: 5px 10px;
+  color: black;
+  border: 1px solid gray;
+}
+
+.size ul li:hover a {
+  text-decoration: none;
+}
+
+.exchange span.exchange-size {
+  display: inline-block;
+  padding-right: 10px;
+  margin-right: 5px;
+  border-right: 1px solid gray;
+}
+
+.amount ul li {
+  margin: 5px 0px;
+}
+
+.amount ul li a {
+  display: block;
+  color: black;
+  text-align: center;
+  width: 35px;
+  height: 35px;
+  padding: 5px 12px;
+  border: 1px solid gray;
+}
+
+.amount ul li.amount-display a {
+  border: none;
+}
+
+.amount ul li:hover a {
+  text-decoration: none;
+}
+
+.amount button {
+  width: 300px;
+  height: 40px;
+  padding: 5px auto;
+}
+
+#product-detail h2 {
+  border-bottom: 3px solid black;
+  display: inline-block;
+  padding-bottom: 7px;
+}
+
+h3 {
+  border-bottom: 3px solid black;
+  display: inline-block;
+  padding-bottom: 7px;
+}
+
+.related-products .img-box-body {
+  display: block;
+  overflow: hidden;
+}
+
+.related-products .img-box-body img {
+  transition: all 0.2s;
+}
+
+.related-products .img-box-body:hover img {
+  opacity: 0.9;
+  transform: scale(1.1);
+}
+
+.related-products a.name-type {
+  display: block;
+}
+
+.related-products a.name-type:hover {
+  text-decoration: none;
+  color: crimson !important;
+}
+
+.related-products span {
+  font-size: 20px;
+  font-weight: 500;
+}

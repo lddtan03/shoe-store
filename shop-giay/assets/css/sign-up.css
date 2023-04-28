@@ -1,0 +1,351 @@
+* {
+  box-sizing: border-box;
+}
+
+/* .justify-content-between {
+  justify-content: space-between;
+} */
+
+/* ========================= HEADER =========================== */
+
+#header {
+  background-color: rgb(238, 252, 238);
+  position: relative;
+}
+
+img {
+  width: 100%;
+}
+
+ul {
+  padding: 0px;
+  margin: 0px;
+  list-style: none;
+}
+
+#header .logo {
+  position: relative;
+}
+
+#header .logo .logo-icon {
+  max-width: 150px;
+  height: auto;
+}
+
+#header .logo .logo-icon img {
+  max-width: 100%;
+}
+
+#header #form-search {
+  position: absolute;
+  bottom: 20%;
+  right: 5%;
+  display: flex;
+  justify-content: space-between;
+  width: 80%;
+}
+
+#header #form-search button i {
+  width: 20px;
+  height: 20px;
+  color: beige;
+}
+
+#header #form-search button:hover i {
+  color: #fff;
+}
+
+.login i {
+  color: #333;
+  font-size: 19px;
+  padding: 10px 10px;
+}
+
+.list-icon {
+  display: flex;
+  justify-content: end;
+}
+
+.list-icon li {
+  position: relative;
+}
+
+.icon-login-1:hover .sub-login {
+  display: block !important;
+}
+
+.icon-login-2 {
+  display: none;
+}
+
+.sub-login {
+  z-index: 1;
+  position: absolute;
+  right: 0px;
+  top: 39px;
+  width: 100px;
+  background-color: rgb(222, 251, 219);
+  display: none;
+}
+
+.sub-login li a {
+  display: block;
+  padding: 5px 10px 5px 5px;
+  color: #333;
+  font-weight: 500;
+}
+
+.sub-login li:hover a {
+  color: rgb(255, 44, 7);
+  text-decoration: none;
+  background-color: cornsilk;
+}
+
+#icon-menu-responsive {
+  border: none;
+  background: none;
+  position: absolute;
+  bottom: 5px;
+  left: 15px;
+  display: none;
+  z-index: 3;
+}
+
+#icon-menu-responsive i {
+  font-size: 1.3em;
+}
+
+#header #main-menu > li > a {
+  display: block;
+  padding: 10px;
+  font-size: 1em;
+  font-weight: 500;
+}
+
+#main-menu {
+  display: flex;
+}
+
+#header #main-menu > li:hover > a {
+  color: red;
+  text-decoration: none;
+}
+
+#header #main-menu li {
+  position: relative;
+}
+
+#header #main-menu li:hover .sub-menu {
+  display: block;
+}
+
+#header #main-menu a {
+  color: #333;
+}
+
+#main-menu .sub-menu {
+  z-index: 1;
+  position: absolute;
+  left: 10px;
+  width: 250px;
+  background-color: rgb(209, 252, 205);
+  display: none;
+}
+
+#main-menu .sub-menu li a {
+  display: block;
+  padding: 7px 10px 7px 15px;
+}
+
+ul.sub-menu > li > a i {
+  position: absolute;
+  top: 12px;
+  right: 10px;
+}
+
+#header ul#main-menu ul.sub-menu > li:hover > a {
+  text-decoration: none;
+  background-color: #fff;
+  color: red;
+}
+
+#main-menu .sub-sub-menu {
+  position: absolute;
+  background-color: rgb(202, 251, 198);
+  width: 270px;
+  right: -270px;
+  top: 0px;
+  display: none;
+}
+
+#header ul#main-menu ul.sub-menu .sub-sub-menu li:hover a {
+  background-color: #ffffff;
+  text-decoration: none;
+  color: red;
+}
+
+#main-menu ul.sub-menu li:hover .sub-sub-menu {
+  display: block;
+}
+
+#form-search-responsive {
+  display: none !important;
+}
+
+#main-menu-responsive {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 39px;
+  left: 0px;
+  background-color: rgb(216, 249, 216);
+  width: 100%;
+  padding-left: 0px;
+  display: none;
+}
+
+#main-menu-responsive li a {
+  display: block;
+  padding: 5px 15px;
+  color: black;
+}
+
+#main-menu-responsive > li:hover > a {
+  text-decoration: none;
+  color: black;
+  background-color: rgb(132, 214, 143);
+}
+
+.sub-menu > li:hover > a {
+  text-decoration: none;
+  color: black;
+  background-color: rgb(132, 214, 143);
+}
+
+.sub-sub-menu li:hover > a {
+  text-decoration: none;
+  color: black;
+  background-color: rgb(132, 214, 143);
+}
+
+.icon-sub-menu {
+  position: absolute;
+  right: 15px;
+  top: 0px;
+  padding: 8px;
+  transition: all 0.3s ease-in-out;
+}
+
+.icon-sub-menu.open,
+.icon-sub-sub-menu.open {
+  transform: rotate(90deg);
+}
+
+.icon-sub-sub-menu {
+  position: absolute;
+  right: 25px;
+  top: 0px;
+  padding: 8px;
+  transition: all 0.3s ease-in-out;
+}
+
+/* =================== Content ===================== */
+@media (max-width: 1130px) {
+  nav ul#main-menu li a {
+    font-size: 0.9em !important;
+    padding: 3px !important;
+  }
+
+  #header #form-search {
+    position: absolute;
+    bottom: 30%;
+    right: 15%;
+    display: flex;
+    justify-content: space-between;
+    width: 80%;
+    height: auto;
+  }
+}
+@media (max-width: 768px) {
+  nav ul#main-menu {
+    display: none !important;
+  }
+  #header #form-search {
+    display: none;
+  }
+  #icon-menu-responsive {
+    display: block;
+  }
+  .icon-login:hover .sub-login {
+    display: none;
+  }
+  #main-menu-responsive,
+  #main-menu-responsive .sub-menu,
+  #main-menu-responsive .sub-sub-menu {
+    display: none;
+  }
+  #main-menu-responsive {
+    z-index: 3;
+  }
+  #main-menu-responsive ul.sub-menu > li > a {
+    padding-left: 35px;
+  }
+  #main-menu-responsive ul.sub-sub-menu > li > a {
+    padding-left: 60px;
+  }
+
+  .logo {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  #form-search-responsive {
+    display: block !important;
+    position: absolute;
+    bottom: -33px;
+    left: 25%;
+    z-index: 3;
+    width: 50%;
+    background-color: #719f66;
+    border-radius: 5px;
+    padding: 3px 5px;
+    display: flex !important;
+    justify-content: space-between;
+  }
+
+  #form-search-responsive button {
+    background: none;
+    border: none;
+    flex: 1 1 10%;
+  }
+
+  #form-search-responsive input {
+    border: none;
+    outline: none;
+    background: none;
+    color: #fff;
+    flex: 1 1 90%;
+  }
+
+  #form-search-responsive input::placeholder {
+    color: #fff;
+  }
+
+  .icon-login-1 {
+    display: none;
+  }
+
+  .icon-login-2 {
+    display: block;
+  }
+
+  .icon-login-2:hover {
+    cursor: pointer !important;
+  }
+
+  .title-nav-tab {
+    font-size: 1.5em;
+    color: #333;
+    font-weight: 500;
+  }
+} ;
