@@ -26,6 +26,7 @@ $result = $db->fetchOne($statement);
     <script src="https://code.jquery.com/jquery-3.6.3.js" integrity="sha256-nQLuAZGRRcILA+6dMBOvcRh5Pe310sBpanc6+QBmyVM=" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="../shop-giay/assets/font/fontawesome/css/all.css" />
     <script src="assets/js/main.js"></script>
+    <link rel="stylesheet" href="assets/css/lienHe-footer.css">
     <link rel="stylesheet" href="./assets/css/product-detail.css" />
     <link rel="stylesheet" href="assets/css/main.css" />
     <title>Shop bán giày</title>
@@ -183,7 +184,7 @@ $result = $db->fetchOne($statement);
                                 </li> -->
 
                                 <li><a href="">Hot sale</a></li>
-                                <li><a href="index.php?page=chitietsp">Liên hệ</a></li>
+                                <li><a href="index.php?page=lienHe">Liên hệ</a></li>
                             </ul>
                         </nav>
                         <nav>

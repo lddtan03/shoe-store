@@ -24,6 +24,9 @@ if (isset($_GET['page'])) {
         case "giohang":
             require_once("giohang.php");
             break;
+        case "lienHe":
+            require_once("lienHe.php");
+            break;
         case "forgot-pass":
             require_once("forgot-pass.php");
             break;

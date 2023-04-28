@@ -1,0 +1,223 @@
+* {
+  /* padding: 0;
+    margin: 0; */
+  box-sizing: border-box;
+}
+
+.contact {
+  max-width: 1200px;
+  margin: 0px auto;
+  /* width: 1110px; */
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.contact-container {
+  max-width: 100%;
+}
+
+/* .contact-row {
+  max-width: 100%;
+  display: flex;
+  justify-content: center;
+  
+} */
+
+.contact-ul {
+  list-style: none;
+}
+
+.img-insta {
+  max-width: 100%;
+  height: auto;
+}
+
+.contact .contact-container {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.contact-title {
+  font-weight: bold;
+  font-size: 28px;
+  color: #000;
+  padding-bottom: 8px;
+  border-bottom: 2px solid rgba(238, 238, 238, 0.5);
+  margin-bottom: 54px;
+}
+
+.contact .contact-info {
+  padding: 44px 48px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  border: 1px solid #e1e3e8;
+}
+
+.contact-left {
+  /* max-width: 600px; */
+  flex: 0 1 50%;
+}
+
+.contact-right {
+  flex: 0 1 50%;
+}
+
+.contact .contact-item .box-title {
+  font-size: 20px;
+  position: relative;
+  top: 5px;
+  line-height: 32px;
+}
+
+.box-title i[class*="ti-"] {
+  margin-right: 16px;
+}
+
+.contact-ul i[class*="ti-"] {
+  margin-right: 16px;
+}
+
+.contact .contact-info .contact-ul {
+  font-size: 16px;
+  padding-left: 40px;
+  margin-top: 8px;
+  margin-bottom: 0;
+}
+
+.contact .contact-info .contact-ul li {
+  margin-top: 8px;
+}
+
+.contact .contact-info .contact-ul a {
+  text-decoration: none;
+  color: #000;
+}
+
+.contact .contact-info .contact-item {
+  flex: 1;
+}
+
+.contact .contact-submit {
+  margin-top: 24px;
+  /* padding: 32px 48px 42px 48px; */
+  border: 1px solid #e1e3e8;
+}
+
+.contact-submit .form-group label {
+  display: block;
+  text-transform: uppercase;
+  font-size: 14px;
+  letter-spacing: 0.1em;
+  color: #0e1c22;
+  opacity: 0.6;
+  margin-bottom: 14px;
+}
+
+.contact-submit .form-group {
+  display: block;
+  font-weight: 700;
+}
+
+.contact-submit .col-ful {
+  margin-top: 49px;
+  margin-bottom: 32px;
+}
+
+.contact-submit .form-control {
+  font-size: 20px;
+  border: none;
+  border-bottom: 1px solid rgba(14, 28, 34, 0.4);
+  padding: 0 0 8px 0;
+  border-radius: 0;
+}
+
+.contact-submit .btn {
+  padding: 12px 80px;
+  font-size: 16px;
+  display: inline-block;
+  border: 1px solid #0e1c22;
+  font-weight: bold;
+}
+
+.contact-submit .btn:hover {
+  background: #0e1c22;
+  color: #fff;
+}
+
+.contact-right .contact-img img {
+  max-width: 100%;
+  /* vertical-align: middle;
+    height: initial !important; */
+}
+
+.container a {
+  text-decoration: none;
+}
+
+.container ul {
+}
+
+footer .container {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  padding: 0 15px;
+  /* width: 100%; */
+  /* width: 1200px; */
+  margin-left: auto;
+  margin-right: auto;
+}
+
+footer {
+  background-color: #fff;
+}
+/* 
+.footer-row {
+    padding-top: 56px;
+    padding-bottom: 40px;
+
+    position: relative;
+} */
+
+.container .footer-title {
+  font-size: 16px;
+  padding-bottom: 20px;
+  margin: 14px 0;
+}
+
+.container .footer-ul,
+.container .list-instagram {
+  list-style-type: none;
+  font-size: 14px;
+  margin: 14px 0;
+}
+
+.container .footer-ul li {
+  margin-bottom: 16px;
+}
+
+.container .footer-ul a {
+  text-decoration: none;
+  color: #000;
+}
+
+.container .footer-menu {
+  line-height: 1.2;
+}
+
+ul.list-instagram,
+ul.footer-ul {
+  padding: 0;
+}
+
+.container .list-instagram {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.list-instagram .col-4 {
+  margin: 0 5px;
+  width: calc(33.33333% - 10px);
+}
+
+footer {
+  background-color: #f9f8f7;
+}
