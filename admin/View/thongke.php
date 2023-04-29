@@ -37,7 +37,7 @@
                         <table id="example1" class="table table-bordered table-hover table-striped">
                             <thead>
                                 <tr>
-                                    <th class="col-md-1">ID</th>
+                                    <th class="col-md-1">ID Sản phẩm</th>
                                     <th class="col-md-3">Tên sản phẩm</th>
                                     <th class="col-md-3">Số lượng đã bán</th>
                                     <th class="col-md-3">Thu nhập</th>
@@ -46,23 +46,21 @@
                             </thead>
                             <tbody>
                                 <?php
-                                $statement = $pdo->prepare("SELECT * FROM tbl_phieunhap");
-                                $statement->execute();
-
-                                $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+                                $db = new Helper();
+                                $stmt = "SELECT tbl_product.id_pro,ten_pro FROM tbl_phieuxuat join tbl_chitiet_px on tbl_phieuxuat.id_px = tbl_chitiet_px.id_px join tbl_product on tbl_chitiet_px.id_pro =tbl_product.id_pro";
+                                $result = $db->fetchAll($stmt);
                                 foreach ($result as $row) {
                                 ?>
                                     <tr class="dong">
+                                        <td><?php echo $row['id_pro'] ?></td>
+                                        <td>
+                                            <?php echo $row['ten_pro'] ?>
+                                        </td>
+                                        <td>
 
-                                        <td>5</td>
-                                        <td>
-                                            adidas
                                         </td>
                                         <td>
-                                            5
-                                        </td>
-                                        <td>
-                                            10
+
                                         </td>
                                         <td>
                                             15

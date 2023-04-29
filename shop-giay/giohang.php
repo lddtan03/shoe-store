@@ -37,8 +37,8 @@ if(isset($_POST['thanhtoan'])){
         $result1=$db->fetchOne($stmt1);
         $id_px=$result1['id_px'];
         foreach ($_SESSION['cart'] as $spnh) {
-            $stmt="insert into tbl_chitiet_px (id_px,id_pro,id_size,soluong) value (?,?,?,?)";
-            $para=[$id_px,$spnh['id_pro'],$spnh['id_size'],$spnh['soluong']];
+            $stmt="insert into tbl_chitiet_px (id_px,id_pro,id_size,soluong,giaban) value (?,?,?,?,?)";
+            $para=[$id_px,$spnh['id_pro'],$spnh['id_size'],$spnh['soluong'].$spnh['giaban']];
             $db->execute($stmt,$para);
         }
         $_SESSION['cart'] =array();
@@ -46,6 +46,7 @@ if(isset($_POST['thanhtoan'])){
     }
 }
 ?>
+
 <body>
     <style>
         @media (min-width: 1200px) {
@@ -54,7 +55,6 @@ if(isset($_POST['thanhtoan'])){
                 padding: 0px 50px;
             }
         }
-
         @media (max-width: 768px) {
             .cart {
                 display: none;
@@ -171,7 +171,6 @@ if(isset($_POST['thanhtoan'])){
     </div>
 
 </body>
-
 <script>
     function TangGiamSL(phantu, sl) {
         var ht = document.getElementById(phantu).value;

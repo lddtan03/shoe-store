@@ -1,5 +1,6 @@
 <?php
 unset($_SESSION['user1']);
+unset($_SESSION['user']);
 if (isset($_POST["btn-login"])) {
     $db = new Helper();
     $statement="SELECT * FROM tbl_users WHERE email=? and matkhau=?";
@@ -11,9 +12,14 @@ if (isset($_POST["btn-login"])) {
         echo "<script type='text/javascript'>alert('Đăng nhập thành công');</script>";
         $db = new Helper();
         $result= $db->fetchOne($statement,$para);
+    if($result['id_loaitk']==1){
         $_SESSION["user1"]=$result;
         header("Location: index.php?page=home");
-        
+    }else{
+        $_SESSION["user"]=$result;
+        header("Location: ../admin/Control/index.php?page=profile-edit");
+    }
+       
     } 
 }
 ?>

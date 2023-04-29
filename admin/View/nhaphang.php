@@ -85,6 +85,7 @@ if (isset($_SESSION['phieunhap'])) {
 }
 date_default_timezone_set('Africa/Nairobi');
 $now = date('d-m-Y');
+
 if (isset($_POST['nhaphang'])) {
     $valid = 1;
     if (count($_SESSION["phieunhap"]) == 0) {
@@ -95,8 +96,8 @@ if (isset($_POST['nhaphang'])) {
         date_default_timezone_set('Africa/Nairobi');
         $now = date('Y-m-d');
         $db = new Helper();
-        $stmt = "insert into tbl_phieunhap(id_nv,tongtien,tongsl,ngaynhap)value(?,?,?,?)";
-        $para = [$_SESSION["user1"]["id_user"], $_POST['tongtien'], $_POST['tongsl'], $now];
+        $stmt = "insert into tbl_phieunhap(id_nv,id_ncc,tongtien,tongsl,ngaynhap)value(?,?,?,?,?)";
+        $para = [$_SESSION["user"]["id_user"], $_POST['nhacungcap'], $_POST['tongtien'], $_POST['tongsl'], $now];
         $db->execute($stmt, $para);
         $stmt1 = "select id_pn from tbl_phieunhap ORDER BY id_pn desc limit 1";
         $result1 = $db->fetchOne($stmt1);
@@ -105,8 +106,22 @@ if (isset($_POST['nhaphang'])) {
             $stmt = "insert into tbl_chitiet_pn (id_pn,id_pro,id_size,soluong,dongia) value (?,?,?,?,?)";
             $para = [$id_px, $spnh['id_pro'], $spnh['id_size'], $spnh['soluong'], $spnh['gianhap']];
             $db->execute($stmt, $para);
+            $stmt0 = "select id_pro from tbl_pro_soluong where id_pro = ? and id_size = ?";
+            $para0 = [$spnh['id_pro'], $spnh['id_size']];
+            if ($db->rowCount($stmt0, $para0) > 0) {
+                $stmt0 = "select soluong from tbl_pro_soluong where id_pro = ? and id_size = ?";
+                $para0 = [$spnh['id_pro'], $spnh['id_size']];
+                $soluongtemp = $db->fetchOne($stmt0,$para0);
+                $stmt1 = "update tbl_pro_soluong set soluong = ? where id_pro = ? and id_size = ?";
+                $para1 = [$soluongtemp['soluong']*1+$spnh['soluong']*1, $spnh['id_pro'], $spnh['id_size']];
+                $db->execute($stmt1, $para1);
+            } else {
+                $stmt1 = "insert into tbl_pro_soluong(soluong,id_pro,id_size) values (?, ?, ?)";
+                $para1 = [$spnh['soluong'], $spnh['id_pro'], $spnh['id_size']];
+                $db->execute($stmt1, $para1);
+            }
         }
-        $_SESSION['phieunhap'] =array();
+        $_SESSION['phieunhap'] = array();
         echo "<script type='text/javascript'>alert('Nhập hàng thành công');</script>";
     }
 }
@@ -138,9 +153,17 @@ if (isset($_POST['nhaphang'])) {
                                 </div>
                                 <div class="row" style="margin: 5px 0; text-align:center;">
                                     <div class="col-md-5 text-right" style="font-size: 2rem;">Nhà cung cấp:</div>
-                                    <!-- <div class="col-md-7"><strong style="font-size: 2rem;"><?php echo $_SESSION['user']['ten_user'] ?></strong></div> -->
-                                    <div class="col-md-7"><select name="" id="" style="width: 130px;height: 30px; border: 2px groove black; border-radius: 5px;">
-                                            <option value="">Phong Vân</option>
+                                    <div class="col-md-7"><select name="nhacungcap" id="" style="width: 130px;height: 30px; border: 2px groove black; border-radius: 5px;">
+                                            <?php
+                                            $db = new Helper();
+                                            $stmt = "select * from tbl_nhacungcap where daxoa <>1";
+                                            $result = $db->fetchAll($stmt);
+                                            foreach ($result as $row) {
+                                            ?>
+                                                <option value="<?php echo $row['id_ncc'] ?>"><?php echo $row['ten_ncc'] ?></option>
+                                            <?php
+                                            }
+                                            ?>
                                         </select>
                                     </div>
                                 </div>

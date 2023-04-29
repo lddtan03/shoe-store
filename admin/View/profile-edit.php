@@ -203,7 +203,7 @@ foreach ($result as $row) {
 									<div class="form-group">
 										<label for="" class="col-sm-2 control-label">Quyền<span>*</span></label>
 										<div class="col-sm-4" style="padding-top:7px;">
-											<select name="quyen" id="" style="height:30px; padding:5px;">
+											<select name="quyen" id="" style="height:30px; padding:5px;" disabled>
 												<option value=""><?php echo $role; ?></option>
 											</select>
 										</div>

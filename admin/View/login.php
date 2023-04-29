@@ -27,7 +27,6 @@ if (isset($_POST['form1'])) {
 			if ($row_password != ($password)) {
 				$error_message .= 'Password does not match<br>';
 			} else {
-
 				$_SESSION['user'] = $row;
 				header("location: ../Control/index.php?page=dashboard");
 			}
