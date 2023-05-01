@@ -1,8 +1,8 @@
 <?php
 if (isset($_POST['clear'])) {
-    $_SESSION['cart'] =array();
+    $_SESSION['cart'] = array();
 }
-$tong_tien =0;
+$tong_tien = 0;
 if (isset($_POST['xoa'])) {
     $id_xoa = $_POST['id_xoa'];
     $size_xoa = $_POST['size_xoa'];
@@ -16,32 +16,32 @@ if (isset($_POST['xoa'])) {
     $_SESSION['cart'] = $array;
     echo "<script type='text/javascript'>alert('Đã xóa');</script>";
 }
-if(isset($_POST['thanhtoan'])){
-    $valid=1;
-    if(!isset($_SESSION["user1"])){
-        $valid=0;
+if (isset($_POST['thanhtoan'])) {
+    $valid = 1;
+    if (!isset($_SESSION["user1"])) {
+        $valid = 0;
         echo "<script type='text/javascript'>alert('Bạn chưa đăng nhập');</script>";
     }
-    if(count($_SESSION["cart"])==0){
-        $valid=0;
+    if (count($_SESSION["cart"]) == 0) {
+        $valid = 0;
         echo "<script type='text/javascript'>alert('Giỏ hàng trống');</script>";
     }
-    if($valid==1){
+    if ($valid == 1) {
         date_default_timezone_set('Africa/Nairobi');
         $now = date('Y-m-d');
         $db = new Helper();
-        $stmt="insert into tbl_phieuxuat(id_kh,tongtien,tongsl,ngaydat)value(?,?,?,?)";
-        $para=[$_SESSION["user1"]["id_user"],$_POST['tongtien'],$_POST['tongsl'],$now];
-        $db->execute($stmt,$para);
-        $stmt1="select id_px from tbl_phieuxuat ORDER BY id_px desc limit 1";
-        $result1=$db->fetchOne($stmt1);
-        $id_px=$result1['id_px'];
+        $stmt = "insert into tbl_phieuxuat(id_kh,tongtien,tongsl,ngaydat)value(?,?,?,?)";
+        $para = [$_SESSION["user1"]["id_user"], $_POST['tongtien'], $_POST['tongsl'], $now];
+        $db->execute($stmt, $para);
+        $stmt1 = "select id_px from tbl_phieuxuat ORDER BY id_px desc limit 1";
+        $result1 = $db->fetchOne($stmt1);
+        $id_px = $result1['id_px'];
         foreach ($_SESSION['cart'] as $spnh) {
-            $stmt="insert into tbl_chitiet_px (id_px,id_pro,id_size,soluong,giaban) value (?,?,?,?,?)";
-            $para=[$id_px,$spnh['id_pro'],$spnh['id_size'],$spnh['soluong'],$spnh['giamoi']];
-            $db->execute($stmt,$para);
+            $stmt = "insert into tbl_chitiet_px (id_px,id_pro,id_size,soluong,giaban) value (?,?,?,?,?)";
+            $para = [$id_px, $spnh['id_pro'], $spnh['id_size'], $spnh['soluong'], $spnh['giamoi']];
+            $db->execute($stmt, $para);
         }
-        $_SESSION['cart'] =array();
+        $_SESSION['cart'] = array();
         echo "<script type='text/javascript'>alert('Mua hàng thành công');</script>";
     }
 }
@@ -55,6 +55,7 @@ if(isset($_POST['thanhtoan'])){
                 padding: 0px 50px;
             }
         }
+
         @media (max-width: 768px) {
             .cart {
                 display: none;
@@ -86,9 +87,9 @@ if(isset($_POST['thanhtoan'])){
                             <div class="col-md-1 text-left"><?php echo money($row['giamoi']) ?></div>
                             <div class="col-md-3 mx-auto">
                                 <div class="row d-flex justify-content-center">
-                                    <span class="quantity-btn minus" onclick="TangGiamSL(<?php echo $row['id_pro']+$row['size'] ?>,-1)"><img src="../uploads/minus.jpg" style="width:70%;"></span>
-                                    <input type="text" style="width: 20%; text-align:center" id="<?php echo $row['id_pro']+$row['size'] ?>" name="quantity_temp" min="0" value="<?php echo $row['soluong'] ?>" readonly>
-                                    <span class="quantity-btn plus" onclick="TangGiamSL(<?php echo $row['id_pro']+$row['size'] ?>,1)"><img src="../uploads/add.jpg" style="width: 70% ;"></span>
+                                    <span class="quantity-btn minus" onclick="TangGiamSL(<?php echo $row['id_pro'] + $row['size'] ?>,-1)"><img src="../uploads/minus.jpg" style="width:70%;"></span>
+                                    <input type="text" style="width: 20%; text-align:center" id="<?php echo $row['id_pro'] + $row['size'] ?>" name="quantity_temp" min="0" value="<?php echo $row['soluong'] ?>" readonly>
+                                    <span class="quantity-btn plus" onclick="TangGiamSL(<?php echo $row['id_pro'] + $row['size'] ?>,1)"><img src="../uploads/add.jpg" style="width: 70% ;"></span>
                                 </div>
                             </div>
                             <form method="POST">
@@ -99,8 +100,9 @@ if(isset($_POST['thanhtoan'])){
                         </div>
                 <?php
                     }
-                }
-                if(count($_SESSION["cart"])==0){
+                    if (count($_SESSION["cart"]) == 0) {
+                    }
+                } else {
                     echo '<h4 class="text-center mt-4">GIỎ HÀNG CỦA BẠN ĐANG TRỐNG</h4>';
                 }
                 ?>
@@ -156,11 +158,11 @@ if(isset($_POST['thanhtoan'])){
                             </div>
                         </div>
 
-                        <div class="row mt-3 d-flex justify-content-between">             
+                        <div class="row mt-3 d-flex justify-content-between">
                             <form method="post">
-                                <input type="text" name ="tongtien" hidden value="<?php echo $tong_tien ?>">
-                                <input type="text" name ="tongsl" hidden value="<?php echo $tongsl ?>">
-                            <input type="submit" class="btn btn-success" name="thanhtoan" value="Thanh Toán">
+                                <input type="text" name="tongtien" hidden value="<?php echo $tong_tien ?>">
+                                <input type="text" name="tongsl" hidden value="<?php echo $tongsl ?>">
+                                <input type="submit" class="btn btn-success" name="thanhtoan" value="Thanh Toán">
                                 <input type="submit" name="clear" onclick="return confirm('Bạn có muốn xóa hết không')" value="Xóa danh sách" class="btn btn-danger" style="font-size: 1rem!important;"></input>
                             </form>
                         </div>
