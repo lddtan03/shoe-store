@@ -1,12 +1,19 @@
 <?php
-$error_message = '';
-?>
-<?php
-if ($error_message != '') {
-    echo "<script>alert('" . $error_message . "')</script>";
+if (isset($_POST['xacnhan'])) {
+    $id_xuly = $_POST['id_xuly'];
+    $db = new Helper();
+    $stmt = "update tbl_phieuxuat set trangthai = 1, id_nv=? where id_px =?";
+    $para = [$_SESSION['user']['id_user'], $id_xuly];
+    $db->execute($stmt, $para);
+    echo "<script type='text/javascript'>alert('Xác nhận thành công');</script>";
 }
-if ($success_message != '') {
-    echo "<script>alert('" . $success_message . "')</script>";
+if (isset($_POST['huydon'])) {
+    $id_xuly = $_POST['id_xuly'];
+    $db = new Helper();
+    $stmt = "update tbl_phieuxuat set trangthai = 2, id_nv=? where id_px =?";
+    $para = [$_SESSION['user']['id_user'], $id_xuly];
+    $db->execute($stmt, $para);
+    echo "<script type='text/javascript'>alert('Đã hủy đơn');</script>";
 }
 ?>
 <section class="content-header">
@@ -15,138 +22,54 @@ if ($success_message != '') {
     </div>
 </section>
 <section class="content">
-
     <div class="row">
         <div class="box box-info">
-            <div class="box-body table-responsive">
+            <div class="box-body table-responsive" style=" overflow-x: scroll;">
                 <div class="wrap col-md-12">
                     <div class="m-5 ">
-                        <form action="index.php" method="get">
-                            <input type="hidden" name="page" value="size">
+                        <form>
                             <input type="hidden" name="p" value="1">
-                            <div class="">Search <input type="text" name="search" placeholder="ID or Name"><input type="submit" value="Tìm" name="tim"></div>
+                            <div class="text-center" style="width: 1500px;">
+                                Từ ngày <input type="date" name="" id="ngaymin" value="2020-01-01" style="margin-left:10px ;margin-right: 10px;">
+                                đến ngày <input type="date" name="" id="ngaymax" style="margin-left:10px ; margin-right: 30px; " value="<?php echo date('Y-m-d'); ?>" max="<?php echo date('Y-m-d'); ?>" style="margin-right: 50px;">
+                                Tình Trạng <select name="" id="tinhtrang" onchange="show(1)" style="margin-right: 20px; height: 25px;">
+                                    <option value="">Tất cả</option>
+                                    <option value="0">Chờ xác nhận</option>
+                                    <option value="1">Đã xác nhận</option>
+                                    <option value="2">Đã hủy</option>
+                                </select>
+                                Số dòng / Trang <input type="number" value="5" min="1" max="100" required id="sodong" style="height: 25px; margin-right: 50px;">
+                                <input type="button" id="tim" value="Tim" onclick="show(1)">
+                            </div>
                         </form>
                     </div>
-
-                    <table id="example1" class="table table-bordered table-hover table-striped">
+                    <table id="example1" class="table table-bordered table-hover table-striped" style="width: 1530px;">
                         <thead>
                             <tr>
-                                <th class="col-md-1">#</th>
-                                <th class="col-md-3">Khách hàng</th>
-                                <th class="col-md-3">Nhân viên</th>
-                                <th class="col-md-1">Số lượng</th>
-                                <th class="col-md-1">Tổng tiền</th>
-                                <th class="col-md-1">Trạng thái</th>
-                                <th class="col-md-2">Hành động</th>
+                                <th class="col-md-1 text-center">ID Đơn Hàng</th>
+                                <th class="col-md-2">Khách hàng</th>
+                                <th class="col-md-2">Nhân viên</th>
+                                <th class="col-md-2 text-center">Ngày đặt</th>
+                                <th class="col-md-1 text-center">Số lượng</th>
+                                <th class="col-md-1 text-right">Tổng tiền</th>
+                                <th class="col-md-2 text-center">Trạng thái</th>
+                                <th class="col-md-1 text-center">Hành động</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <?php
-                            $statement = $pdo->prepare("SELECT * FROM tbl_phieuxuat");
-                            $statement->execute();
-                            $result = $statement->fetchAll(PDO::FETCH_ASSOC);
-                            foreach ($result as $row) {
-                                $db=new Helper();
-                                $stmt1= "select id_user,ten_user,email,sodth from tbl_users where id_user =?";
-                                $para1=[$row['id_kh']];
-                                $khachhang =$db ->fetchOne($stmt1,$para1);
-                            ?>
-                                <tr class="<?php if ($row['trangthai'] == '1') {
-                                                echo 'bg-g';
-                                            } else if ($row['trangthai'] == '2'){
-                                                echo 'bg-r';
-                                            } ?>">
-                                    <td><?php echo $row['id_px']; ?></td>
-                                    <td>
-                                        <b>Id:</b> <?php echo $khachhang['id_user'] ?><br>
-                                        <b>Name:</b> <?php echo $khachhang['ten_user']?><br>
-                                        <b>Email:</b> <?php echo $khachhang['email'] ?><br>
-                                        <b>Số điện thoại:</b> <?php echo $khachhang['sodth'] ?><br>
-                                    </td>
-                                    <td>
-                                        <b>Id:</b> <?php  ?><br>
-                                        <b>Name:</b><br> <?php  ?><br>
-                                        <b>Email:</b><br> <?php  ?><br>
-                                    </td>
-                                    <td>5</td>
-                                    <td>
-                                        <?php echo money($row['tongtien']); ?>
-                                    </td>
-                                    <td>
-                                        <?php
-                                        if ($row['trangthai'] == 0) {
-                                        ?>
-                                            <a href="#" data-href="../View/order-change-status.php?id=<?php echo $row['id_px']; ?>" class="btn btn-warning btn-xs" style="width:30%%;margin-bottom:4px;" data-toggle="modal" data-target="#xacnhan">Xác nhận</a>
-                                            <a href="#" data-href="../View/order-change-status.php?id=<?php echo $row['id_px']; ?>" class="btn btn-danger btn-xs" style="width:30%%;margin-bottom:4px;" data-toggle="modal" data-target="#huydon">Hủy Đơn</a>
-                                        <?php
-                                        } else if($row['trangthai'] == 1){
-                                        ?>
-                                           <button class="btn btn-success btn-xs"> Đã Xác Nhận</button>
-                                        <?php
-                                        }else{
-                                            ?>
-                                            <button class="btn btn-danger btn-xs"> Đã hủy</button>
-                                            <?php
-                                        }
-                                        ?>
-                                    </td>
-                                    <td>
-                                        <a href="#" class="btn btn-info btn-xs" data-toggle="modal" data-target="#chitiet">Chi tiết</a>
-                                        <a href="#" class="btn btn-danger btn-xs" data-href="../Model/color-delete.php?id=<?php echo $row['id_px']; ?>" data-toggle="modal" data-target="#confirm-delete">Delete</a>
-                                    </td>
-                                </tr>
-                            <?php
-                            }
-                            ?>
+                        <tbody id="dulieu">
+
                         </tbody>
                     </table>
-                    <nav aria-label="Page navigation ">
-                        <ul class="pagination mt-3 ">
-                            <li class="page-item "><a class="page-link" href="#">Previous</a></li>
-                            <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                            <li class="page-item"><a class="page-link" href="#">2</a></li>
-                            <li class="page-item"><a class="page-link" href="#">3</a></li>
-                            <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                    <nav aria-label="Page navigation " style="width: 100%; display: flex; justify-content: center; padding-bottom: 20px;">
+
+                        <ul class="pagination mt-3 row " id="trang" style="width: 400px; display: flex; justify-content: center; overflow-x: scroll;">
                         </ul>
+
                     </nav>
                 </div>
             </div>
 </section>
 
-<div class="modal fade" id="xacnhan" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title" id="myModalLabel">Xác nhận đơn hàng</h4>
-            </div>
-            <div class="modal-body">
-                Bạn có đồng ý xác nhận đơn hàng không?
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                <a class="btn btn-danger btn-ok">Dồng ý</a>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="modal fade" id="huydon" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title" id="myModalLabel">Xác nhận đơn hàng</h4>
-            </div>
-            <div class="modal-body text-danger">
-                Bạn có đồng ý hủy đơn hàng không?
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                <a class="btn btn-danger btn-ok">Dồng ý</a>
-            </div>
-        </div>
-    </div>
-</div>
 <div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -164,43 +87,63 @@ if ($success_message != '') {
         </div>
     </div>
 </div>
+<script defer>
+    function show(p) {
+        var ngaymin = document.getElementById("ngaymin").value;
+        var ngaymax = document.getElementById("ngaymax").value;
+        var tinhtrang = document.getElementById("tinhtrang").value;
+        var sodong = document.getElementById("sodong").value;
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                var inra = this.responseText.split("???");
+                document.getElementById("dulieu").innerHTML = inra[0];
+                document.getElementById("trang").innerHTML = inra[1];
+            }
+        }
+        xmlhttp.open("GET", "../Model/order-pt-tk.php?p=" + p + "&ngaymin=" + ngaymin + "&ngaymax=" + ngaymax + "&tinhtrang=" + tinhtrang + "&sodong=" + sodong, true);
+        xmlhttp.send();
+    }
+    window.onload = show(1);
+</script>
+<div class="modal fade"  id="chitiet" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title" id="myModalLabel">Chi Tiết Đơn Hàng</h4>
+			</div>
+			<div class="modal-body">
+				<table class="table align-middle mb-0 bg-white text-center  table-bordered table-hover table-striped" id="example1">
+					<thead class="bg-light">
+						<tr>
+							<th class="col-md-1">STT</th>
+							<th class="col-md-4">Tên sản phẩm</th>
+							<th class="col-md-1">Size</th>
+							<th class="col-md-1">Số lượng</th>
+							<th class="col-md-2">Giá bán</th>
+						</tr>
+					</thead>
+					<tbody id="dulieune">
 
-<div class="modal fade" id="chitiet" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title" id="myModalLabel">Chi tiết đơn hàng</h4>
-            </div>
-            <div class="modal-body">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th class="col-md-2">STT</th>
-                            <th class="col-md-3">Tên sản phẩm</th>
-                            <th class="col-md-2">Size</th>
-                            <th class="col-md-2">Số lượng</th>
-                            <th class="col-md-2">Đơn giá</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>dep cao su</td>
-                            <td>XL</td>
-                            <td>3</td>
-                            <td>23000 đ</td>
-                        </tr>
-                        <tr>
-                            <td colspan="4" align="right">Tổng cộng:</td>
-                            <td colspan="1"><strong>15000 đ</strong> </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-            </div>
-        </div>
-    </div>
+					</tbody>
+				</table>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+			</div>
+		</div>
+	</div>
 </div>
+<script>
+	function chitietne(id_lay) {
+		var xmlhttp = new XMLHttpRequest();
+		xmlhttp.onreadystatechange = function() {
+			if (this.readyState == 4 && this.status == 200) {
+				document.getElementById("dulieune").innerHTML = this.responseText;
+
+			}
+		}
+		xmlhttp.open("GET", "../Model/chitietdh.php?id_lay=" + id_lay, true);
+		xmlhttp.send();
+	}
+</script>

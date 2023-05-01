@@ -9,33 +9,34 @@
 
 <section class="content">
 	<div class="row">
-			<div class="box box-info">
-				<div class="box-body table-responsive">
-					<div class="wrap col-md-12">
-						<div class="m-5 ">
-						</div>
-						<table id="example1" class="table table-bordered table-hover table-striped">
-							<thead>
-								<tr>
-									<th class="col-md-1">ID</th>
-									<th class="col-md-6">Hình ảnh</th>
-									<th class="col-md-2">Hành động</th>
-								</tr>
-							</thead>
-							<tbody id="dulieu">
-								
-								
-							</tbody>
-						</table>
-						<nav aria-label="Page navigation ">
-							<ul class="pagination mt-3 " id="trang">
-								
-							</ul>
-						</nav>
+		<div class="box box-info">
+			<div class="box-body table-responsive">
+				<div class="wrap col-md-12">
+					<div class="m-5 ">
 					</div>
+					<table id="example1" class="table table-bordered table-hover table-striped">
+						<thead>
+							<tr>
+								<th class="col-md-1">ID</th>
+								<th class="col-md-6">Hình ảnh</th>
+								<th class="col-md-2">Hành động</th>
+							</tr>
+						</thead>
+						<tbody id="dulieu">
+
+
+						</tbody>
+					</table>
+					<nav aria-label="Page navigation " style="width: 100%; display: flex; justify-content: center; padding-bottom: 20px;">
+
+						<ul class="pagination mt-3 row " id="trang" style="width: 400px; display: flex; justify-content: center; overflow-x: scroll;">
+						</ul>
+
+					</nav>
 				</div>
 			</div>
 		</div>
+	</div>
 </section>
 
 
@@ -68,7 +69,7 @@
 				document.getElementById("trang").innerHTML = inra[1];
 			}
 		}
-		xmlhttp.open("GET", "../Model/sliders-pt-tk.php?p=" + p , true);
+		xmlhttp.open("GET", "../Model/sliders-pt-tk.php?p=" + p, true);
 		xmlhttp.send();
 	}
 	window.onload = show(1);

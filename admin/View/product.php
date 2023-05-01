@@ -8,10 +8,10 @@
 	</div>
 </section>
 
-<section class="content">
-	<div class="row">
-		<div class="col-md-12">
-			<div class="box box-info">
+<section class="content" style="overflow-x: scroll;">
+	<div class="row" >
+		<div class="col-md-12" >
+			<div class="box box-info" style="width: 1550px;">
 				<div class="box-body table-responsive">
 					<div class="wrap col-md-12">
 						<div class="m-5 ">
@@ -85,9 +85,9 @@
 					</div>
 					<style>
 					</style>
-					<nav aria-label="Page navigation ">
+					<nav aria-label="Page navigation " style="width: 100%; display: flex; justify-content: center; padding-bottom: 20px;">
 
-						<ul class="pagination mt-3 row " id="trang">
+						<ul class="pagination mt-3 row " id="trang" style="width: 400px; display: flex; justify-content: center; overflow-x: scroll;">
 						</ul>
 
 					</nav>

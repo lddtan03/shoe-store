@@ -1,28 +1,37 @@
 <?php
 unset($_SESSION['user1']);
+unset($_SESSION['user']);
 if (isset($_POST["btn-login"])) {
     $db = new Helper();
-    $statement="SELECT * FROM tbl_users WHERE email=? and matkhau=?";
-    $para=[$_POST['username'],$_POST['password']];
-    $count = $db->rowCount($statement,$para);
-    if($count==0){
+    $statement = "SELECT * FROM tbl_users WHERE email=? and matkhau=?";
+    $para = [$_POST['username'], $_POST['password']];
+    $count = $db->rowCount($statement, $para);
+    if ($count == 0) {
         echo "<script type='text/javascript'>alert('Tên đăng nhập hoặc mật khẩu sai');</script>";
-    }else{
-        echo "<script type='text/javascript'>alert('Đăng nhập thành công');</script>";
+    } else {
         $db = new Helper();
-        $result= $db->fetchOne($statement,$para);
-        $_SESSION["user1"]=$result;
-        header("Location: index.php?page=home");
-        
-    } 
+        $result = $db->fetchOne($statement, $para);
+        if($result['trangthai']==1){
+            echo "<script type='text/javascript'>alert('Tài khoản của bạn đã bị khóa');</script>";
+        }else{
+            echo "<script type='text/javascript'>alert('Đăng nhập thành công');</script>";
+            if ($result['id_loaitk'] == 1) {
+                $_SESSION["user1"] = $result;
+                header("Location: index.php?page=home");
+            } else {
+                $_SESSION["user"] = $result;
+                header("Location: ../admin/Control/index.php?page=profile-edit");
+            }
+        }
+    }
 }
 ?>
-       <script defer>
-          function resetdn(){
-                document.getElementById('ttdn').innerHTML='  <img src="../uploads/" alt="" style="width:50px">'
-            }
-            window.onload = resetdn();
-        </script>
+<script defer>
+    function resetdn() {
+        document.getElementById('ttdn').innerHTML = '  <img src="../uploads/" alt="" style="width:50px">'
+    }
+    window.onload = resetdn();
+</script>
 <style>
     .form-group label {
         font-weight: 500;

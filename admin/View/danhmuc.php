@@ -31,10 +31,12 @@
 
 							</tbody>
 						</table>
-						<nav aria-label="Page navigation ">
-							<ul class="pagination mt-3 " id="trang">
-							</ul>
-						</nav>
+						<nav aria-label="Page navigation " style="width: 100%; display: flex; justify-content: center; padding-bottom: 20px;">
+
+						<ul class="pagination mt-3 row " id="trang" style="width: 400px; display: flex; justify-content: center; overflow-x: scroll;">
+						</ul>
+
+					</nav>
 					</div>
 				</div>
 			</div>

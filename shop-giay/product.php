@@ -109,7 +109,7 @@
                     <span class="range-selected"></span>
                 </div>
                 <div class="range-input">
-                    <input type="range" class="min" id="min" min="0" max="10000000" value="0" onclick="laygia()" step="100000">
+                    <input type="range" class="min" id="min" min="0" max="10000000" value="0" onchange="laygia()" step="100000">
                     <input type="range" class="max" id="max" min="0" max="10000000" value="100000000" onchange="laygia()" step="100000">
                 </div>
                 <div class="row  mt-3 text-center">
@@ -181,18 +181,12 @@
             </div>
             <div class="sort">
                 <label>Sắp xếp theo : </label>
-
                 <div class="select-product">
-
-                    <select name="select">
-                        <option value="">Sản phẩm nổi bật</option>
-                        <option value="xs">Giá: Tăng dần</option>
-                        <option value="s">Giá: Giảm dần</option>
-                        <option value="m">Tên: A-Z</option>
-                        <option value="l">Tên: Z-A</option>
-                        <option value="xl">Cũ nhất</option>
-                        <option value="xl">Mới nhất</option>
-                        <option value="xl">Bán chạy nhất</option>
+                    <select id="sapxep" onchange="hamcom(1)">
+                        <option value="giagiam">Giá: Giảm dần</option>
+                        <option value="giatang">Giá: Tăng dần</option>
+                        <option value="tentang">Tên: A-Z</option>
+                        <option value="tengiam">Tên: Z-A</option>
                     </select>
                 </div>
                 <div class="locsanpham">
@@ -274,14 +268,18 @@
                     } else {
                         $dmloc = "";
                     }
-                    $stmt = "select * from tbl_product join tbl_danhmuc on tbl_danhmuc.id_dm = tbl_product.id_dm  where id_nh regexp ? and tbl_product.id_dm regexp ? limit 6 ";
-                    $para = [$nhloc, $dmloc];
+                    if (isset($_REQUEST['search'])) {
+                        $search = $_REQUEST['search'];
+                    } else {
+                        $search = "";
+                    }
+                    $stmt = "select * from tbl_product join tbl_danhmuc on tbl_danhmuc.id_dm = tbl_product.id_dm  where ten_pro regexp? and  id_nh regexp ? and tbl_product.id_dm regexp ? order by giamoi desc limit 6 ";
+                    $para = [$search, $nhloc, $dmloc];
                     $conn = new Helper();
                     $result = $conn->fetchAll($stmt, $para);
                     $products = $result;
                     foreach ($result as $row) {
                     ?>
-
                         <div class="col-md-6 col-lg-4  mb-lg-0 ">
                             <div class="card mb-4 position-relative" style="height: 580px;">
                                 <!-- <div class="position-absolute p-2  " style="top:0;left:0; background-color:bisque; color:tomato;">-30%</div>
@@ -299,11 +297,10 @@
 
                                     <div class="d-flex justify-content-between mb-3">
                                         <a href="chitietsp.php?id=<?php echo $row['id_pro']; ?>" style="text-decoration: none;">
-                                            <h5 class="mb-0"><?php echo $row['ten_pro'] ?></h5>
+                                            <h5 class="text-dark mb-0"><?php echo $row['ten_pro'] ?></h5>
                                         </a>
                                         <h5 class="text-dark mb-0"><?php echo money($row['giamoi']) ?></h5>
                                     </div>
-
                                     <div class="d-flex justify-content-between mb-2">
                                         <p class="text-muted mb-0">Lượt xem: <span class="fw-bold"><?php echo $row['total_view']; ?></span></p>
                                         <div class="ms-auto text-warning">
@@ -325,25 +322,32 @@
             <nav aria-label="Page navigation" style="width: 100%; display: flex; justify-content: center; padding-bottom: 20px;">
                 <ul class="pagination" id="trang" style="width: 400px; display: flex; justify-content: center; overflow-x: scroll;">
                     <?php
-                    $stmt = "select * from tbl_product join tbl_danhmuc on tbl_danhmuc.id_dm = tbl_product.id_dm  where id_nh regexp ? and tbl_product.id_dm regexp ?";
-                    $para = [$nhloc, $dmloc];
+                    $stmt = "select * from tbl_product join tbl_danhmuc on tbl_danhmuc.id_dm = tbl_product.id_dm where ten_pro regexp? and id_nh regexp ? and tbl_product.id_dm regexp ?";
+                    $para = [$search, $nhloc, $dmloc];
                     $db = new Helper();
                     $dem = $db->rowCount($stmt, $para);
                     $sotrang = round($dem / 6 + 0.4);
                     ?>
-                    <li class="page-item "><a class="page-link" onclick="">Previous</a></li>
                     <input type="text" name="page" id="page" value="1" hidden>
                     <?php
                     for ($i = 1; $i <= $sotrang; $i++) {
                     ?>
-                        <li class="page-item <?php if ($i == 1) echo "active"; ?>"><a class="page-link" onclick="DoiTrang(<?php echo $i; ?>)"></php><?php echo $i; ?></a></li>
+                        <li class="page-item <?php if ($i == 1) echo "active"; ?>"><a class="page-link" onclick="hamcom(<?php echo $i; ?>)"></php><?php echo $i; ?></a></li>
                     <?php
                     }
                     ?>
-                    <li class="page-item "><a class="page-link" onclick="show()">Next</a></li>
                 </ul>
             </nav>
         </section>
+        <input type="text" id="nhanhieu1" hidden value="<?php if (isset($_GET['nhanhieu'])) {
+                                                            echo $_GET['nhanhieu'];
+                                                        } ?>">
+        <input type="text" id="danhmuc1" hidden value="<?php if (isset($_GET['danhmuc'])) {
+                                                            echo $_GET['danhmuc'];
+                                                        } ?>">
+        <input type="text" id="search1" hidden value="<?php if (isset($_GET['search'])) {
+                                                            echo $_GET['search'];
+                                                        } ?>">
     </div>
 </div>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -365,20 +369,80 @@
         });
     });
     // Thêm sự kiện "click" cho toàn bộ trang web để đóng cửa sổ khi người dùng bấm ra ngoài
-
     function showPopup() {
         document.getElementById("myPopup").style.display = "block";
         document.querySelector('.popup-overlay').style.display = "block";
+    }
+
+    function DoiTrang(i) {
+        document.getElementById("page").value = i;
+    }
+
+    function hamcom(i) {
+        var brands = $('input[name="brand[]"]:checked').map(function() {
+            return this.id;
+        }).get();
+        var sizes = $('input[name="size[]"]:checked').map(function() {
+            return this.id;
+        }).get();
+        var min = VNDtoInt($('#minne').val());
+        var max = VNDtoInt($('#maxne').val());
+        var nhanhieu = $('#nhanhieu1').val();
+        var danhmuc = $('#danhmuc1').val();
+        var search = $('#search1').val();
+        var sapxep = $('#sapxep').val();
+        var page = i;
+        if (brands.length == 0 && sizes.length == 0) {
+            $.ajax({
+                url: 'filter.php',
+                method: 'POST',
+                data: {
+                    brands: [],
+                    sizes: [],
+                    min: min,
+                    max: max,
+                    sapxep: sapxep,
+                    nhanhieu: nhanhieu,
+                    danhmuc: danhmuc,
+                    search: search,
+                    page: page
+                },
+                success: function(response) {
+                    var inra = response.split("???");
+                    $('#product-list').html(inra[0]);
+                    document.getElementById("trang").innerHTML = inra[1];
+                }
+            });
+        } else {
+            $.ajax({
+                url: 'filter.php',
+                method: 'POST',
+                data: {
+                    brands: brands,
+                    sizes: sizes,
+                    min: min,
+                    max: max,
+                    sapxep: sapxep,
+                    nhanhieu: nhanhieu,
+                    danhmuc: danhmuc,
+                    search: search,
+                    page: page
+                },
+                success: function(response) {
+                    var inra = response.split("???");
+                    $('#product-list').html(inra[0]);
+                    document.getElementById("trang").innerHTML = inra[1];
+                }
+            });
+        }
     }
 
     function hidePopup() {
         document.getElementById("myPopup").style.display = "none";
         document.querySelector('.popup-overlay').style.display = "none";
     }
-    // suu kien loc
-
     $(document).ready(function() {
-        $('input[name="brand[]"], input[name="size[]"] ,.min, .max, .page-item').click(function() {
+        $('input[name="brand[]"], input[name="size[]"] ,.min, .max').click(function() {
             var brands = $('input[name="brand[]"]:checked').map(function() {
                 return this.id;
             }).get();
@@ -387,7 +451,11 @@
             }).get();
             var min = VNDtoInt($('#minne').val());
             var max = VNDtoInt($('#maxne').val());
-            var page = $('#page').val();
+            var nhanhieu = $('#nhanhieu1').val();
+            var danhmuc = $('#danhmuc1').val();
+            var search = $('#search1').val();
+            var sapxep = $('#sapxep').val();
+            var page = 1;
             if (brands.length == 0 && sizes.length == 0) {
                 $.ajax({
                     url: 'filter.php',
@@ -397,6 +465,10 @@
                         sizes: [],
                         min: min,
                         max: max,
+                        sapxep :sapxep,
+                        nhanhieu: nhanhieu,
+                        danhmuc: danhmuc,
+                        search: search,
                         page: page
                     },
                     success: function(response) {
@@ -414,6 +486,10 @@
                         sizes: sizes,
                         min: min,
                         max: max,
+                        sapxep :sapxep,
+                        nhanhieu: nhanhieu,
+                        danhmuc: danhmuc,
+                        search: search,
                         page: page
                     },
                     success: function(response) {
@@ -425,9 +501,4 @@
             }
         });
     });
-
-
-    function DoiTrang(p) {
-        document.getElementById("page").value = p;
-    }
 </script>

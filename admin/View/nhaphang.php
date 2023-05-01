@@ -85,6 +85,7 @@ if (isset($_SESSION['phieunhap'])) {
 }
 date_default_timezone_set('Africa/Nairobi');
 $now = date('d-m-Y');
+
 if (isset($_POST['nhaphang'])) {
     $valid = 1;
     if (count($_SESSION["phieunhap"]) == 0) {
@@ -95,8 +96,8 @@ if (isset($_POST['nhaphang'])) {
         date_default_timezone_set('Africa/Nairobi');
         $now = date('Y-m-d');
         $db = new Helper();
-        $stmt = "insert into tbl_phieunhap(id_nv,tongtien,tongsl,ngaynhap)value(?,?,?,?)";
-        $para = [$_SESSION["user1"]["id_user"], $_POST['tongtien'], $_POST['tongsl'], $now];
+        $stmt = "insert into tbl_phieunhap(id_nv,id_ncc,tongtien,tongsl,ngaynhap)value(?,?,?,?,?)";
+        $para = [$_SESSION["user"]["id_user"], $_POST['nhacungcap'], $_POST['tongtien'], $_POST['tongsl'], $now];
         $db->execute($stmt, $para);
         $stmt1 = "select id_pn from tbl_phieunhap ORDER BY id_pn desc limit 1";
         $result1 = $db->fetchOne($stmt1);
@@ -105,8 +106,22 @@ if (isset($_POST['nhaphang'])) {
             $stmt = "insert into tbl_chitiet_pn (id_pn,id_pro,id_size,soluong,dongia) value (?,?,?,?,?)";
             $para = [$id_px, $spnh['id_pro'], $spnh['id_size'], $spnh['soluong'], $spnh['gianhap']];
             $db->execute($stmt, $para);
+            $stmt0 = "select id_pro from tbl_pro_soluong where id_pro = ? and id_size = ?";
+            $para0 = [$spnh['id_pro'], $spnh['id_size']];
+            if ($db->rowCount($stmt0, $para0) > 0) {
+                $stmt0 = "select soluong from tbl_pro_soluong where id_pro = ? and id_size = ?";
+                $para0 = [$spnh['id_pro'], $spnh['id_size']];
+                $soluongtemp = $db->fetchOne($stmt0, $para0);
+                $stmt1 = "update tbl_pro_soluong set soluong = ? where id_pro = ? and id_size = ?";
+                $para1 = [$soluongtemp['soluong'] * 1 + $spnh['soluong'] * 1, $spnh['id_pro'], $spnh['id_size']];
+                $db->execute($stmt1, $para1);
+            } else {
+                $stmt1 = "insert into tbl_pro_soluong(soluong,id_pro,id_size) values (?, ?, ?)";
+                $para1 = [$spnh['soluong'], $spnh['id_pro'], $spnh['id_size']];
+                $db->execute($stmt1, $para1);
+            }
         }
-        $_SESSION['phieunhap'] =array();
+        $_SESSION['phieunhap'] = array();
         echo "<script type='text/javascript'>alert('Nhập hàng thành công');</script>";
     }
 }
@@ -124,12 +139,11 @@ if (isset($_POST['nhaphang'])) {
 
 <section class="content">
     <div class="row">
-        <div class="col-md-12">
-            <div class="box box-info">
-                <div class="row">
-                    <div class="col-md-4">
+        <div class="col-md-12" style="overflow: scroll;">
+            <div class="box box-info" style="width: 1500px;">
+                <div style="width: 1500px; display: flex; height: 500px;" >
+                    <div style="width: 500px; margin-right: 50px;">
                         <h3 style="text-align: center;">PHIẾU NHẬP</h3>
-
                         <div style="height:400px; border: 1px solid black; border-radius: 15px; padding: 20px 2px;">
                             <form method="post">
                                 <div class="row" style="margin: 5px 0; text-align:center;">
@@ -138,9 +152,17 @@ if (isset($_POST['nhaphang'])) {
                                 </div>
                                 <div class="row" style="margin: 5px 0; text-align:center;">
                                     <div class="col-md-5 text-right" style="font-size: 2rem;">Nhà cung cấp:</div>
-                                    <!-- <div class="col-md-7"><strong style="font-size: 2rem;"><?php echo $_SESSION['user']['ten_user'] ?></strong></div> -->
-                                    <div class="col-md-7"><select name="" id="" style="width: 130px;height: 30px; border: 2px groove black; border-radius: 5px;">
-                                            <option value="">Phong Vân</option>
+                                    <div class="col-md-7"><select name="nhacungcap" id="" style="width: 130px;height: 30px; border: 2px groove black; border-radius: 5px;">
+                                            <?php
+                                            $db = new Helper();
+                                            $stmt = "select * from tbl_nhacungcap where daxoa <>1";
+                                            $result = $db->fetchAll($stmt);
+                                            foreach ($result as $row) {
+                                            ?>
+                                                <option value="<?php echo $row['id_ncc'] ?>"><?php echo $row['ten_ncc'] ?></option>
+                                            <?php
+                                            }
+                                            ?>
                                         </select>
                                     </div>
                                 </div>
@@ -155,15 +177,15 @@ if (isset($_POST['nhaphang'])) {
                                 <div style="text-align: center; margin-top: 20px; display:flex; justify-content: center;">
                                     <input type="text" name="tongtien" hidden value="<?php echo $tongtien ?>">
                                     <input type="text" name="tongsl" hidden value="<?php echo $tongsl ?>">
-                                    <button name="nhaphang" class="btn btn-success" style="font-size: 2rem; margin-right: 20px;">Nhập hàng</button>
+                                    <button name="nhaphang" class="btn btn-success" onclick="return confirm('Bạn có muốn nhập hàng không')" style="font-size: 2rem; margin-right: 20px;">Nhập hàng</button>
                                     <input type="submit" name="clear" onclick="return confirm('Bạn có muốn xóa không')" value="Xóa danh sách" class="btn btn-danger" style="font-size: 2rem!important;"></input>
                                 </div>
                             </form>
                         </div>
                     </div>
-                    <div class="col-md-8">
+                    <div style="width: 900px;">
                         <h3 style="text-align: center;">DANH SÁCH HÀNG NHẬP</h3>
-                        <div style="height:400px; overflow: scroll;">
+                        <div style="height:400px; overflow-y: scroll;">
                             <table class="table table-bordered table-hover table-striped">
                                 <thead class="thead-dark">
                                     <tr>
@@ -202,85 +224,87 @@ if (isset($_POST['nhaphang'])) {
                             </table>
                         </div>
                     </div>
+                </div>
+                <div class="box-body table-responsive">
+                    <div class="wrap col-md-12">
+                        <div class="m-5">
+                            <form style="display:flex; margin: 30px 0 10px 0;">
+                                <div style="padding: 0 20px;">
+                                    Search <input type="text" id="search" placeholder="ID or Name">
+                                </div>
+                                <div style="padding: 0 20px;">
+                                    Nhãn hiệu <select name="" onchange="show(1)" id="nhanhieu">
+                                        <option value="">Tất cả</option>
+                                        <?php
+                                        $db = new Helper();
+                                        $stmt = "select * from tbl_nhanhieu";
+                                        $result = $db->fetchAll($stmt);
+                                        foreach ($result as $row) {
+                                        ?>
+                                            <option value="<?php echo $row['id_nh'] ?>"><?php echo $row['nhanhieu'] ?></option>
+                                        <?php
+                                        }
+                                        ?>
+                                    </select>
 
-                    <div class="box-body table-responsive">
-                        <div class="wrap col-md-12">
-                            <div class="m-5">
-                                <form style="display:flex; margin: 30px 0 10px 0;">
-                                    <div style="padding: 0 20px;">
-                                        Search <input type="text" id="search" placeholder="ID or Name">
-                                    </div>
-                                    <div style="padding: 0 20px;">
-                                        Nhãn hiệu <select name="" onchange="show(1)" id="nhanhieu">
-                                            <option value="">Tất cả</option>
-                                            <?php
-                                            $db = new Helper();
-                                            $stmt = "select * from tbl_nhanhieu";
-                                            $result = $db->fetchAll($stmt);
-                                            foreach ($result as $row) {
-                                            ?>
-                                                <option value="<?php echo $row['id_nh'] ?>"><?php echo $row['nhanhieu'] ?></option>
-                                            <?php
-                                            }
-                                            ?>
-                                        </select>
+                                </div>
+                                <div style="padding: 0 20px;">
+                                    Danh mục <select name="" onchange="show(1)" id="danhmuc">
+                                        <option value="">Tất cả</option>
+                                        <?php
+                                        $db = new Helper();
+                                        $stmt = "select * from tbl_danhmuc";
+                                        $result = $db->fetchAll($stmt);
+                                        foreach ($result as $row) {
+                                        ?>
+                                            <option value="<?php echo $row['id_dm'] ?>"><?php echo $row['danhmuc'] ?></option>
+                                        <?php
+                                        }
+                                        ?>
+                                    </select>
+                                </div>
+                                <div style="padding: 0 20px;">
+                                    Số Dòng / Trang <select name="" onchange="show(1)" id="sodong">
+                                        <option value="5">5</option>
+                                        <option value="10">10</option>
+                                        <option value="15">15</option>
+                                        <option value="20">20</option>
+                                    </select>
 
-                                    </div>
-                                    <div style="padding: 0 20px;">
-                                        Danh mục <select name="" onchange="show(1)" id="danhmuc">
-                                            <option value="">Tất cả</option>
-                                            <?php
-                                            $db = new Helper();
-                                            $stmt = "select * from tbl_danhmuc";
-                                            $result = $db->fetchAll($stmt);
-                                            foreach ($result as $row) {
-                                            ?>
-                                                <option value="<?php echo $row['id_dm'] ?>"><?php echo $row['danhmuc'] ?></option>
-                                            <?php
-                                            }
-                                            ?>
-                                        </select>
-                                    </div>
-                                    <div style="padding: 0 20px;">
-                                        Số Dòng / Trang <select name="" onchange="show(1)" id="sodong">
-                                            <option value="5">5</option>
-                                            <option value="10">10</option>
-                                            <option value="15">15</option>
-                                            <option value="20">20</option>
-                                        </select>
+                                </div>
+                                <div style="padding: 0 20px;"><input type="button" id="tim" value="Tim" onclick="show(1)"></div>
 
-                                    </div>
-                                    <div style="padding: 0 20px;"><input type="button" id="tim" value="Tim" onclick="show(1)"></div>
-
-                                </form>
-                            </div>
-                            <table id="example1" class="table table-bordered table-hover table-striped">
-                                <thead class="thead-dark">
-                                    <tr>
-                                        <th class="col-md-1 text-center">id</th>
-                                        <th class="col-md-2">Hình ảnh</th>
-                                        <th class="col-md-4">Tên sản phẩm</th>
-                                        <th class="col-md-2">Danh mục</th>
-                                        <th class="col-md-1">Nhãn hiệu</th>
-                                        <th class="col-md-1 text-center">Số lượng</th>
-                                        <th class="col-md-1 text-center">Hành động</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="dulieu">
-
-                                </tbody>
-                            </table>
+                            </form>
                         </div>
-                        <style>
-                        </style>
-                        <nav aria-label="Page navigation ">
-                            <ul class="pagination mt-3 row " id="trang">
-                            </ul>
+                        <table id="example1" class="table table-bordered table-hover table-striped">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th class="col-md-1 text-center">id</th>
+                                    <th class="col-md-2">Hình ảnh</th>
+                                    <th class="col-md-4">Tên sản phẩm</th>
+                                    <th class="col-md-2">Danh mục</th>
+                                    <th class="col-md-1">Nhãn hiệu</th>
+                                    <th class="col-md-1 text-center">Số lượng</th>
+                                    <th class="col-md-1 text-center">Hành động</th>
+                                </tr>
+                            </thead>
+                            <tbody id="dulieu">
 
-                        </nav>
+                            </tbody>
+                        </table>
                     </div>
+                    <style>
+                    </style>
+                    <nav aria-label="Page navigation " style="width: 100%; display: flex; justify-content: center; padding-bottom: 20px;">
+
+<ul class="pagination mt-3 row " id="trang" style="width: 400px; display: flex; justify-content: center; overflow-x: scroll;">
+</ul>
+
+</nav>
                 </div>
             </div>
+        </div>
+    </div>
 </section>
 
 <div class="modal model-lg fade" id="themgiohang" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -305,14 +329,14 @@ if (isset($_POST['nhaphang'])) {
                             foreach ($result as $row) {
                             ?>
                                 <div style="float:left; margin-right:10px;">
-                                    <label for="" class="control-label"><?php echo $row['size']; ?><input type="text" style="width:30px; margin-left:5px;" name="size[<?php echo $row['size']; ?>][]"></label>
+                                    <label for="" class="control-label"><?php echo $row['size']; ?><input type="number" min="0" style="width:50px; margin-left:5px;" name="size[<?php echo $row['size']; ?>][]"></label>
                                 </div>
                             <?php
                             }
                             ?>
                         </div>
                     </div>
-                    <div style="margin-top: 10px; margin-bottom: 10px; display: flex; justify-content: center;">Giá Nhập <input style="margin-left: 10px;" name="gianhap" type="text"></div>
+                    <div style="margin-top: 10px; margin-bottom: 10px; display: flex; justify-content: center;">Giá Nhập <input style="margin-left: 10px;" min="0" name="gianhap" type="number"></div>
                     <div class="row text-center"><button type="submit" class="btn btn-success" value="Xác nhận" name="thempn">Xác nhận</button></div>
                 </form>
 

@@ -44,7 +44,7 @@ $result = $db->fetchOne($statement);
     <script defer>
         function show() {
             var search = document.getElementById("search").value;
-            if (search.length < 5) {
+            if (search.length < 4) {
                 document.getElementById("search-hints").innerHTML = "<div></div>";
                 return
             }
@@ -60,6 +60,13 @@ $result = $db->fetchOne($statement);
         if (window.history.replaceState) {
             window.history.replaceState(null, null, window.location.href);
         }
+    </script>
+    <script>
+        $(document).ready(function() {
+            $('#search').on('blur', function() {
+                document.getElementById("search-hints").innerHTML = "<div></div>";
+            });
+        });
     </script>
 </head>
 
@@ -233,9 +240,10 @@ $result = $db->fetchOne($statement);
                         </nav>
                     </div>
                     <div class="col-md-5 col-sm-3 position-absolute ">
-                        <form action="" id="form-search" style="right:-105%; ">
-                            <input type="text" name="form-search" id="search" onkeypress="show()" onkeydown="show()" placeholder="Bạn muốn tìm gì?" class="form-control" />
-                            <button name="btn-search" class="btn btn-dark ml-2">
+                        <form action="index.php" id="form-search" style="right:-105%; ">
+                        <input type="text" name="page" hidden value="product"/>
+                            <input type="text" name="search" id="search" onkeypress="show()" onkeydown="show()" placeholder="Bạn muốn tìm gì?" class="form-control" />
+                            <button class="btn btn-dark ml-2">
                                 <i class="fa-solid fa-magnifying-glass"></i>
                             </button>
                             <div id="search-hints">

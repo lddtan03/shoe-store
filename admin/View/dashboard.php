@@ -65,11 +65,9 @@ include("../Model/inforindex.php");
 							</div>
 
 							<div class="col-lg-3 col-xs-6">
-								<!-- small box -->
 								<div class="small-box bg-info">
 									<div class="inner">
-										<h3><?php echo $total_money; ?></h3>
-
+										<h3><?php echo money($total_money) ?></h3>
 										<p>Tổng thu nhập</p>
 									</div>
 									<div class="icon">
@@ -79,9 +77,6 @@ include("../Model/inforindex.php");
 								</div>
 							</div>
 						</div>
-					</div>
-					<div class="tab-pane" id="tab_2">
-						
 					</div>
 				</div>
 			</div>

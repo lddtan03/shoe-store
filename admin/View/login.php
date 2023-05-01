@@ -22,14 +22,18 @@ if (isset($_POST['form1'])) {
 		} else {
 			foreach ($result as $row) {
 				$row_password = $row['matkhau'];
+				$id_loaitk=$row['id_loaitk'];
+				$trangthai=$row['trangthai'];
 			}
-
 			if ($row_password != ($password)) {
 				$error_message .= 'Password does not match<br>';
 			} else {
-
-				$_SESSION['user'] = $row;
-				header("location: ../Control/index.php?page=dashboard");
+				if ($trangthai == 1 || $id_loaitk==1) {
+					echo "<script type='text/javascript'>alert('Tài khoản của bạn không thể đăng nhập');</script>";
+				} else {
+					$_SESSION['user'] = $row;
+					header("location: ../Control/index.php?page=dashboard");
+				}
 			}
 		}
 	}

@@ -1,30 +1,30 @@
+<?php if (isset($_GET['tc'])) : ?>
+	<?php echo "<script type='text/javascript'>alert('Đã xóa');</script>"; ?>
+<?php endif; ?>
+
 <section class="content-header">
 	<div class="content-header-left">
-		<h1>Quản lý Sizes</h1>
+		<h1>Quản lý nhà cung cấp</h1>
 	</div>
 	<div class="content-header-right">
-		<a href="index.php?page=size-add" class="btn btn-primary btn-sm">Add New</a>
+		<a href="index.php?page=nhacungcap-add" class="btn btn-primary btn-sm">Add New</a>
 	</div>
 </section>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
-<section class="content" onload="show(1)">
-
+<section class="content">
 	<div class="row">
 		<div class="col-md-12">
 			<div class="box box-info">
 				<div class="box-body table-responsive">
 					<div class="wrap col-md-12">
 						<div class="m-5 ">
-							<form>
-								<div class="">Search <input type="text" id="search" placeholder="ID or Name"><input type="button" value="Tim" id="tim" onclick="show(1)"></div>
-							</form>
+							<div class="">Search <input type="text" id="search" placeholder="ID or Name"> <input type="button" value="Tìm" onclick="show(1)"></div>
 						</div>
-						<table class="table align-middle mb-0 bg-white text-center  table-bordered table-hover table-striped" id="example1">
+						<table class="table align-middle mb-0 bg-white table-bordered text-center table-hover">
 							<thead class="bg-light">
 								<tr>
 									<th class="col-md-2">ID</th>
-									<th class="col-md-4">Size</th>
-									<th class="col-md-6">Actions</th>
+									<th class="col-md-4">Tên nhà cung câp</th>
+									<th class="col-md-4">Actions</th>
 								</tr>
 							</thead>
 							<tbody id="dulieu">
@@ -33,15 +33,16 @@
 						</table>
 						<nav aria-label="Page navigation " style="width: 100%; display: flex; justify-content: center; padding-bottom: 20px;">
 
-							<ul class="pagination mt-3 row " id="trang" style="width: 400px; display: flex; justify-content: center; overflow-x: scroll;">
-							</ul>
+						<ul class="pagination mt-3 row " id="trang" style="width: 400px; display: flex; justify-content: center; overflow-x: scroll;">
+						</ul>
 
-						</nav>
+					</nav>
 					</div>
-
 				</div>
 			</div>
+		</div>
 </section>
+
 
 <div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	<div class="modal-dialog">
@@ -51,7 +52,7 @@
 				<h4 class="modal-title" id="myModalLabel">Delete Confirmation</h4>
 			</div>
 			<div class="modal-body">
-				Are you sure want to delete this item?
+				<p>Are you sure want to delete this item?</p>
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
@@ -72,7 +73,7 @@
 				document.getElementById("trang").innerHTML = inra[1];
 			}
 		}
-		xmlhttp.open("GET", "../Model/size-pt-tk.php?p=" + p + "&search=" + search, true);
+		xmlhttp.open("GET", "../Model/nhacungcap-pt-tk.php?p=" + p + "&search=" + search, true);
 		xmlhttp.send();
 	}
 	window.onload = show(1);
