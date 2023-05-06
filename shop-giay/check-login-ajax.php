@@ -21,8 +21,8 @@ if (isset($_POST['btnLogin'])) {
         $error['password'] = "Không được để trống mật khẩu";
     } else {
         $pattern = '/^[A-Za-z0-9_\.!@#$%^&*()]{5,32}$/';
-        if (!preg_match($pattern, $_POST['password'])) {
-            $error['password'] = "Mật khẩu chứa ít nhất 5 ký tự";
+        if (!preg_match($pattern, $password)) {
+            $error['password'] = "Mật khẩu chứa ít nhất 5 ký tự, không chứa khoảng trắng và không có dấu";
         }
     }
 
@@ -35,7 +35,7 @@ if (isset($_POST['btnLogin'])) {
         // $data['user'] = mysqli_fetch_assoc($result);
         $_SESSION["user1"] = mysqli_fetch_assoc($result);
     } else {
-        $data['message'] = "Tên đăng nhập hoặc mật khẩu không chính xác!!!";
+        $data['message'] = "Tài khoản của bạn không tồn tại trên hệ thống!!!";
         $data['is_login'] = 0;
         // $_SESSION["user"] = $result;
         // $data['user'] = $result;

@@ -1,5 +1,6 @@
 <?php
-
+unset($_SESSION["user"]);
+unset($_SESSION["user1"]);
 // if (isset($_POST["btnLogin"])) {
 //     $db = new Helper();
 //     $statement = "SELECT * FROM tbl_users WHERE email=? and matkhau=?";
@@ -47,6 +48,23 @@
         text-decoration: none;
     }
 
+    .sub-form {
+        position: relative;
+    }
+
+    .icon-eye {
+        position: absolute;
+        right: 20px;
+        bottom: 6px;
+        padding: 3px;
+        z-index: 1;
+    }
+
+    .icon-eye:hover {
+        cursor: pointer;
+    }
+
+
     #form-message-error {
         color: red;
         text-align: center;
@@ -61,7 +79,6 @@
         font-size: 23px;
         font-weight: 600;
         display: block;
-
     }
 </style>
 
@@ -78,13 +95,16 @@
                     </div>
                     <div class="form-group form-group-password">
                         <label for="password">Mật khẩu</label>
-                        <input type="password" name="password" id="password" class="form-control" placeholder="Mật khẩu" />
+                        <div class="sub-form">
+                            <input type="password" name="password" id="password" class="form-control" placeholder="Mật khẩu" />
+                            <i class="fa-solid fa-eye icon-eye"></i>
+                        </div>
                         <small class="form-message-password form-message"></small>
                     </div>
                     <input type="submit" name="btn-login" id="btn-login" class="btn btn-info w-100 mt-4 mb-2" value="Đăng nhập">
                     <small id="form-message-error"></small>
                     <small id="form-message-success"></small>
-                    <a class="forgot-password mt-1 d-block" href="index.php?page=forgot-pass">Quên mật khẩu?</a>
+                    <!-- <a class="forgot-password mt-1 d-block" href="index.php?page=forgot-pass">Quên mật khẩu?</a> -->
                     <div class="convert-sign-up">
                         <span>Bạn chưa có tài khoản?</span>
                         <a href="index.php?page=sign-up">Đăng ký</a>
@@ -116,6 +136,16 @@
 </script> -->
 <script>
     $(document).ready(function() {
+        $(".icon-eye").click(function() {
+            $(this).toggleClass("fa-eye-slash");
+            $(this).toggleClass("fa-eye");
+            console.log($(this).prev("#password").attr('type'));
+            if ($(this).hasClass("fa-eye-slash")) {
+                $(this).prev("#password").attr('type', 'text');
+            } else {
+                $(this).prev("#password").attr('type', 'password');
+            }
+        })
         $("#email").blur(function() {
             var email = $("#email").val();
             var password = $("#password").val();
@@ -132,8 +162,8 @@
                 data: data, // Dữ liệu truyền lên server
                 dataType: "json", // html, text, script hoặc json
                 success: function(data) {
-                    console.log(data.error.email);
-                    console.log(data.error.password);
+                    // console.log(data.error.email);
+                    // console.log(data.error.password);
                     if (data.error.email != null) {
                         $(".form-group-email").addClass("invalid");
                         $(".form-message-email").text(data.error.email);
@@ -153,7 +183,7 @@
 
 
 
-                    console.log(data);
+                    // console.log(data);
                 },
                 error: function(xhr, ajaxOptions, thrownError) {
                     alert(xhr.status);
@@ -178,8 +208,8 @@
                 data: data, // Dữ liệu truyền lên server
                 dataType: "json", // html, text, script hoặc json
                 success: function(data) {
-                    console.log(data.error.email);
-                    console.log(data.error.password);
+                    // console.log(data.error.email);
+                    // console.log(data.error.password);
                     if (data.error.password != null) {
                         $(".form-group-password").addClass("invalid");
                         $(".form-message-password").text(data.error.password);
@@ -189,13 +219,13 @@
                     }
 
                     $("#password").focus(function() {
-                        $(this).parents(".form-group-password").removeClass("invalid");
-                        $(this).next(".form-message-password").text("");
+                        $(this).parents(".sub-form").parents(".form-group-password").removeClass("invalid");
+                        $(this).parents(".sub-form").nextAll(".form-message-password").text("");
                         $("#form-message-error").text("");
                         $("#form-message-success").text("");
                     })
 
-                    console.log(data);
+                    // console.log(data);
                 },
                 error: function(xhr, ajaxOptions, thrownError) {
                     alert(xhr.status);
@@ -203,6 +233,7 @@
                 },
             });
         })
+
 
         $("#form-2").submit(function(e) {
             var email = $("#email").val();
@@ -220,8 +251,8 @@
                 data: data, // Dữ liệu truyền lên server
                 dataType: "json", // html, text, script hoặc json
                 success: function(data) {
-                    console.log(data.error.email);
-                    console.log(data.error.password);
+                    // console.log(data.error.email);
+                    // console.log(data.error.password);
                     if (data.error.email != null) {
                         $(".form-group-email").addClass("invalid");
                         $(".form-message-email").text(data.error.email);
@@ -246,8 +277,8 @@
                     })
 
                     $("#password").focus(function() {
-                        $(this).parents(".form-group-password").removeClass("invalid");
-                        $(this).next(".form-message-password").text("");
+                        $(this).parents(".sub-form").parents(".form-group-password").removeClass("invalid");
+                        $(this).parents(".sub-form").nextAll(".form-message-password").text("");
                         $("#form-message-error").text("");
                         $("#form-message-success").text("");
                     })
@@ -266,7 +297,7 @@
                     if (data.is_login == 1) {
                         window.location.href = "index.php?page=home";
                     }
-                    console.log(data);
+                    // console.log(data);
                 },
                 error: function(xhr, ajaxOptions, thrownError) {
                     alert(xhr.status);
