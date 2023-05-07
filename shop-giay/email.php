@@ -25,9 +25,9 @@ function send_mail($send_to_mail, $send_to_fullname, $subject, $content, $option
 
 
         //Recipients
-        $mail->setFrom('leducduytan2003@gmail.com', 'tanle');
+        $mail->setFrom('leducduytan2003@gmail.com', 'Thanh Hùng Fulsal');
         $mail->addAddress($send_to_mail, $send_to_fullname);     //Add a recipient
-        $mail->addReplyTo('leducduytan2003@gmail.com', 'tanle');
+        $mail->addReplyTo('leducduytan2003@gmail.com', 'Thanh Hùng Fulsal');
        
 
         //Content
