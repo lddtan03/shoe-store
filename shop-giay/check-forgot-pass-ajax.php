@@ -27,7 +27,7 @@ if (isset($_POST['btnForgotPass'])) {
     if (mysqli_num_rows($result) > 0) {
         $data['is_send'] = 1;
         $reset_token = md5($email.time());
-        $link_reset_pass = "http://localhost/unitop.vn/front-end/DOANWED/shop-giay/index.php?page=reset_pass&reset_token={$reset_token}";
+        $link_reset_pass = "http://localhost/DOANWED/shop-giay/index.php?page=reset_pass&reset_token={$reset_token}";
         $content = "<p>Chào bạn</p>
         <p>Vui lòng click vào đây để khôi phục mật khẩu: $link_reset_pass</p>
         <p>Nếu không phải bạn, vui lòng bỏ qua email này</p>";

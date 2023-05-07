@@ -73,7 +73,7 @@ if (isset($_POST['btnSignUp'])) {
     if (empty($error)) {
         $data['is_sign_up'] = 1;
         $active_token = md5($email.time());
-        $link_active = "http://localhost/unitop.vn/front-end/DOANWED/shop-giay/index.php?page=active_account&active_token={$active_token}";
+        $link_active = "http://localhost/DOANWED/shop-giay/index.php?page=active_account&active_token={$active_token}";
         $content = "<p>Chào bạn: {$username}</p>
         <p>Vui lòng click vào đường link này để kích hoạt tài khoản: {$link_active}</p>;
         <p>Nếu không phải bạn đăng ký tài khoản, vui lòng bỏ qua email này</p>

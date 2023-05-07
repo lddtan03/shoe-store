@@ -85,8 +85,9 @@ $reset_token = $_GET['reset_token'];
                     <small id="form-message-success"></small>
                     <input type="hidden" name="reset-token" id="reset-token" value="<?php echo $reset_token; ?>"></input>
                     <a class="forgot-password mt-1 d-block" href="index.php?page=forgot-pass">Quên mật khẩu?</a>
-                    <div class="convert-sign-up">
-                        <span>Bạn chưa có tài khoản?</span>
+                    <div>
+                        <span>Quay lại trang</span>
+                        <a href="index.php?page=login">Đăng nhập</a>
                         <a href="index.php?page=sign-up">Đăng ký</a>
                     </div>
                 </form>
