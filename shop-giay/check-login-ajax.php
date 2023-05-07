@@ -26,20 +26,16 @@ if (isset($_POST['btnLogin'])) {
         }
     }
 
-    $sql = "SELECT * from `tbl_users` where email = '$email' and matkhau = '$password'";
+    $sql = "SELECT * from `tbl_users` where email = '$email' and matkhau = '$password' and is_active = '1'";
     $result = mysqli_query($conn, $sql);
 
     if (mysqli_num_rows($result) > 0) {
         $data['message'] = "Đăng nhập thành công!!!";
         $data['is_login'] = 1;
-        // $data['user'] = mysqli_fetch_assoc($result);
         $_SESSION["user1"] = mysqli_fetch_assoc($result);
     } else {
         $data['message'] = "Tài khoản của bạn không tồn tại trên hệ thống!!!";
-        $data['is_login'] = 0;
-        // $_SESSION["user"] = $result;
-        // $data['user'] = $result;
-        // $data['user'] = mysqli_fetch_assoc($result);
+        $data['is_login'] = 0;       
     }
 
     $data['error'] = $error;

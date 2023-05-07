@@ -1,6 +1,7 @@
 <?php
 session_start();
 ob_start();
+require('email.php');
 $conn = mysqli_connect('localhost', 'root', '', 'sneakershop');
 $username = $_POST['username'];
 $email = $_POST['email'];
@@ -13,9 +14,9 @@ $error = array();
 if (empty($username)) {
     $error['username'] = "Không được để trống họ tên";
 } else {
-    $pattern = '/^([a-vxyỳọáầảấờễàạằệếýộậốũứĩõúữịỗìềểẩớặòùồợãụủíỹắẫựỉỏừỷởóéửỵẳẹèẽổẵẻỡơôưăêâđ]{1,10})((\s{1}[a-vxyỳọáầảấờễàạằệếýộậốũứĩõúữịỗìềểẩớặòùồợãụủíỹắẫựỉỏừỷởóéửỵẳẹèẽổẵẻỡơôưăêâđ]{1,10}){1,5})$/';
+    $pattern = '/^([a-vxyỳọáầảấờễàạằệếýộậốũứĩõúữịỗìềểẩớặòùồợãụủíỹắẫựỉỏừỷởóéửỵẳẹèẽổẵẻỡơôưăêâđ]{1,10})((\s{1}[a-vxyỳọáầảấờễàạằệếýộậốũứĩõúữịỗìềểẩớặòùồợãụủíỹắẫựỉỏừỷởóéửỵẳẹèẽổẵẻỡơôưăêâđ]{1,10}){0,5})$/';
     if (!preg_match($pattern, mb_strtolower($username))) {
-        $error['username'] = "Họ tên chứa ít nhất 2 từ, không chứa ký tự đặt biệt, không chứa số";
+        $error['username'] = "Họ tên không chứa ký tự đặt biệt, không chứa số";
     }
 }
 
@@ -67,35 +68,27 @@ if (empty($password_confirm)) {
     }
 }
 
-// $sql = "INSERT INTO `tbl_users`(`id_user`, `ma_user`, `matkhau`, `ten_user`, `email`, `sodth`, `diachi`, `avatar`, `trangthai`, `nhomquyen`) VALUES ('[value-1]','[value-2]','[value-3]','[value-4]','[value-5]','[value-6]','[value-7]','[value-8]','[value-9]','[value-10]')";
-// $result = mysqli_query($conn, $sql);
-
-
-// if (mysqli_num_rows($result) > 0) {
-//     $data['message'] = "Đăng nhập thành công!!!";
-//     $data['is_login'] = 1;
-//     // $data['user'] = mysqli_fetch_assoc($result);
-//     // $_SESSION["user1"] = mysqli_fetch_assoc($result);
-// } else {
-//     $data['message'] = "Tên đăng nhập hoặc mật khẩu không chính xác!!!";
-//     $data['is_login'] = 0;
-//     // $_SESSION["user"] = $result;
-//     // $data['user'] = $result;
-//     // $data['user'] = mysqli_fetch_assoc($result);
-// }
 
 if (isset($_POST['btnSignUp'])) {
     if (empty($error)) {
-        $data['is_login'] = 1;
-        $sql = "INSERT INTO `tbl_users`(`id_user`, `ma_user`, `matkhau`, `ten_user`, `email`, `sodth`, `diachi`, `avatar`, `trangthai`) VALUES ('','','$password','$username','$email','$sdt','$diaChi','','')";
+        $data['is_sign_up'] = 1;
+        $active_token = md5($email.time());
+        $link_active = "http://localhost/unitop.vn/front-end/DOANWED/shop-giay/index.php?page=active_account&active_token={$active_token}";
+        $content = "<p>Chào bạn: {$username}</p>
+        <p>Vui lòng click vào đường link này để kích hoạt tài khoản: {$link_active}</p>;
+        <p>Nếu không phải bạn đăng ký tài khoản, vui lòng bỏ qua email này</p>
+        <p>Support Thành Hùng Futsal</p>";
+        $sql = "INSERT INTO `tbl_users`(`matkhau`, `ten_user`, `email`, `sodth`, `diachi`,`active_token`) VALUES ('$password','$username','$email','$sdt','$diaChi','$active_token')";
         $result = mysqli_query($conn, $sql);
         if ($result) {
-            $data['message'] = "Đăng ký tài khoản thành công!!!";
-        } else {
-            $data['message'] = "Đăng ký tài khoản thất bại!!!";
-        }
+            $data['message'] = "Hệ thống đã gửi đường link kích hoạt đến email của bạn, vui lòng kiểm tra email để kích hoạt tài khoản!!!";
+        } 
+        send_mail("$email","$username", 'Kích hoạt tài khoản', $content);
     }
 }
 
 $data['error'] = $error;
 echo json_encode($data);
+?>
+
+

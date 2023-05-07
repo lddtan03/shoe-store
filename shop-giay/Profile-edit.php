@@ -51,6 +51,7 @@ if (isset($_POST['form1'])) {
 		$stmt = "UPDATE tbl_users SET full_name=?, email=?, sodth=? WHERE id_user=?";
 		$para = [$_POST['full_name'], $_POST['email'], $_POST['sodth'], $_SESSION['user1']['id_user']];
 		$db->execute($stmt, $para);
+
 		echo "<script type='text/javascript'>alert('User Information is updated successfully');</script>";
 	}
 

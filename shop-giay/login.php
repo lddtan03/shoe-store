@@ -104,7 +104,7 @@ unset($_SESSION["user1"]);
                     <input type="submit" name="btn-login" id="btn-login" class="btn btn-info w-100 mt-4 mb-2" value="Đăng nhập">
                     <small id="form-message-error"></small>
                     <small id="form-message-success"></small>
-                    <!-- <a class="forgot-password mt-1 d-block" href="index.php?page=forgot-pass">Quên mật khẩu?</a> -->
+                    <a class="forgot-password mt-1 d-block" href="index.php?page=forgot-pass">Quên mật khẩu?</a>
                     <div class="convert-sign-up">
                         <span>Bạn chưa có tài khoản?</span>
                         <a href="index.php?page=sign-up">Đăng ký</a>
@@ -139,7 +139,6 @@ unset($_SESSION["user1"]);
         $(".icon-eye").click(function() {
             $(this).toggleClass("fa-eye-slash");
             $(this).toggleClass("fa-eye");
-            console.log($(this).prev("#password").attr('type'));
             if ($(this).hasClass("fa-eye-slash")) {
                 $(this).prev("#password").attr('type', 'text');
             } else {

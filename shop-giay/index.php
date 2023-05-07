@@ -21,14 +21,23 @@ if (isset($_GET['page'])) {
         case "chitietsp":
             require_once("giohang.php");
             break;
+        case "active_account":
+            require_once("active_account.php");
+            break;
         case "giohang":
             require_once("giohang.php");
             break;
         case "forgot-pass":
             require_once("forgot-pass.php");
             break;
+        case "check-reset-pass-ajax":
+            require_once("check-reset-pass-ajax.php");
+            break;
         case "lienhe":
             require_once("lienhe.php");
+            break;
+        case "reset_pass":
+            require_once("reset_pass.php");
             break;
         case "Profile-edit":
             require_once("Profile-edit.php");

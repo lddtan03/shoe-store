@@ -115,6 +115,12 @@
     </div>
   </div>
 </div>
+<a href=""></a>
+<?php
+  require('email.php');
+  // echo send_mail('lddtan5@gmail.com','Lê Đức Duy Tân_A0694', 'Kích hoạt tài khoản', '<a href="http://unitop.vn">Kích hoạt tài khoản</a>');
+
+?>
 
 <!-- <script src="assets/js/validator.js"></script>
 <script>
@@ -539,18 +545,14 @@
 
 
           if (data.error == "") {
-            if (data.is_login == 1) {
+            if (data.is_sign_up == 1) {
               $("#form-message-success").text(data.message);
             } else {
               $("#form-message-error").text(data.message);
             }
           }
 
-          // $("#form-message-2").text(data);
-          // if (data.is_login == 1) {
-          //   window.location.href = "index.php?page=home";
-          // }
-          // console.log(data);
+
         },
         error: function(xhr, ajaxOptions, thrownError) {
           alert(xhr.status);
