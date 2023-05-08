@@ -1,5 +1,5 @@
 <footer>
-    <div class="container mt-5 py-5">
+    <div class="container mt-5 py-5" style="max-width: 1550px;">
         <div class="row d-flex justify-content-between">
             <div class="footer-menu col-lg-3 col-md-6 px-2 col-12">
                 <h2 class="footer-title">CHÍNH SÁCH</h2>

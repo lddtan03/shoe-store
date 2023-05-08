@@ -257,9 +257,8 @@ ul.sub-menu > li > a i {
 /* ========================= CONTENT =========================== */
 
 #content h1 {
-  display: inline-block;
+  display: block;
   padding-bottom: 5px;
-  border-bottom: 2px solid #333;
 }
 
 #content img {

@@ -27,11 +27,16 @@ if (empty($password_confirm)) {
 
 if (isset($_POST['btnResetPass'])) {
     if (empty($error)) {
-        $data['is_reset_pass'] = 1;
-        $sql =  "UPDATE tbl_users SET matkhau ='$password_confirm' where `reset_token`='$reset_token'";
+        $sql_sel =  "select * from tbl_users where `reset_token`='$reset_token'";
+        $result_sel = mysqli_query($conn, $sql_sel);
+        $sql =  "UPDATE tbl_users SET matkhau ='$password_confirm', reset_token = NULL where `reset_token`='$reset_token'";
         $result = mysqli_query($conn, $sql);
-        if ($result) {
+        if ($result && mysqli_num_rows($result_sel) > 0) {
+            $data['is_reset_pass'] = 1;
             $data['message'] = "Cập nhật mật khẩu thành công!!!";
+        } else {
+            $data['is_reset_pass'] = 0;
+            $data['message'] = "Cập nhật mật khẩu thất bại!!!";
         }
     }
 }

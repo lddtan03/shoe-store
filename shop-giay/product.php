@@ -172,9 +172,9 @@
         </div>
     </div>
     <div class="contact">
-        <div class="banner">
+        <!-- <div class="banner">
             <img src="../uploads/banner.webp" alt="Banner">
-        </div>
+        </div> -->
         <div class="under_banner">
             <div class="text_Sr">
                 TẤT CẢ SẢN PHẨM

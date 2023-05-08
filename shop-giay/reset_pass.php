@@ -12,7 +12,8 @@
         font-size: 17px;
     }
 
-    .convert-sign-up a:hover,
+    .sign-up:hover,
+    .login:hover,
     .forgot-password:hover {
         color: crimson;
         text-decoration: none;
@@ -84,11 +85,9 @@ $reset_token = $_GET['reset_token'];
                     <small id="form-message-error"></small>
                     <small id="form-message-success"></small>
                     <input type="hidden" name="reset-token" id="reset-token" value="<?php echo $reset_token; ?>"></input>
-                    <a class="forgot-password mt-1 d-block" href="index.php?page=forgot-pass">Quên mật khẩu?</a>
                     <div>
                         <span>Quay lại trang</span>
-                        <a href="index.php?page=login">Đăng nhập</a>
-                        <a href="index.php?page=sign-up">Đăng ký</a>
+                        <a href="index.php?page=login" class="login">Đăng nhập</a>
                     </div>
                 </form>
             </div>
@@ -239,8 +238,11 @@ $reset_token = $_GET['reset_token'];
                     if (data.error == "") {
                         if (data.is_reset_pass == 1) {
                             $("#form-message-success").text(data.message);
+                        } else if (data.is_reset_pass == 0) {
+                            $("#form-message-error").text(data.message);
                         }
                     }
+                    console.log(data);
 
                 },
                 error: function(xhr, ajaxOptions, thrownError) {
